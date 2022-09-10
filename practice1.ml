@@ -8,19 +8,24 @@ let rec fib x:int =
   else if x==1 then 1 
   else fib (x-1) + fib (x-2);;  
 
-  
-(** the power function *)
-(* 
-let rec lastValInList lst = 
-match lst with 
-| ((lenOfList lst) == 1) -> List.hd lst 
-| h::t -> lastValInList t;;  
+let rec mem : 'a -> 'a list -> bool =
+  fun ele list ->
+    match list with
+    | [] -> false
+    | h::t -> if (h == ele) then true else mem ele t;;
+    (* | _ -> failwith "Something went wrong";; *)
 
 
-5
-4
-3
-2
-1
-*)
+(** [rev l] returns the reverse of [l] *)
+let rec rev l =
+    match l with
+    | [] -> []
+    | h::t -> h @ rev t
 
+(* Write a function list_enum that given a positive number n
+returns the list [n;n-1;...;1;0] *)
+
+let rec listEnum num =
+  match num with
+  | -1 -> []
+  | n -> n :: listEnum (num-1);;
