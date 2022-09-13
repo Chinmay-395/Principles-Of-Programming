@@ -140,11 +140,7 @@ let rec filter_string : string list -> int -> string list =
     else filter_string t n
 
 
+(* Use trace command to get all the steps *)
+(* #trace <function_name> *)
 
 
-
-
-
-
-
-  
