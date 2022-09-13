@@ -116,7 +116,28 @@ let rec concatenate l1 l2 =
   | h::t -> h :: concatenate t l2;;
   
 
-(* Map/Filter/Fold *)
+(* Date: Sep 8 *)
+
+(* filters out even number in the list *)
+let rec even l =
+match l with 
+[] -> []
+| (x::xs) -> 
+if (x mod 2 == 0) 
+then x :: (even xs)
+else even xs
+
+(* Define a function that given a list of strings and a number n,
+filters (i.e. keeps) those strings whose length is smaller or
+equal to n *)
+let rec filter_string : string list -> int -> string list = 
+  fun l n ->
+    match l with
+    | [] -> []
+    | h::t -> 
+      if String.length (h) < n
+        then h :: filter_string t n
+    else filter_string t n
 
 
 
