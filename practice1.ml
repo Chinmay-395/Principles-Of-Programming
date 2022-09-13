@@ -50,7 +50,7 @@ For example, stutter 3 2 should return
 let rec stutterFunc m n =
   match m with
   | 0 -> []
-  | m -> m::repeatFunc (m-1) n;;
+  | m -> repeatFunc m n :: stutterFunc (m-1) n
 
 (* Write a function that multiplies all the numbers in a list *)
 let rec multiplierFunc l =
@@ -116,6 +116,7 @@ let rec concatenate l1 l2 =
   | h::t -> h :: concatenate t l2;;
   
 
+(* Map/Filter/Fold *)
 
 
 
