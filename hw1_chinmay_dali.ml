@@ -33,3 +33,8 @@ let mirror_image l =
   map mirror_func l;;
 
 let rotate_90_letter l = map rotate_90_func l;;
+
+let rec rotate_90_word l = 
+  match l with
+  | [] -> []
+  | h::t -> rotate_90_letter h :: rotate_90_word t;;
