@@ -1,29 +1,23 @@
-(* A mini Logo Program *)
-(* This requires a list of tuples to emulate dictionary 
-  [(0,"Pen Down");(1,"Pen Up"); (2,"Move North"); (3,"Move East");(4,"Move South"); (5,"Move West")]   
+type program = int list
+let square : program = [0; 2; 2; 3; 3; 4; 4; 5; 5; 1]
 
-Or use two lists
+let letter_e : program = [0;2;2;3;3;5;5;4;3;5;4;3;3;5;5;1]
 
-[0;1;2;3;4;5]
-[Pen Down;Pen Up;Move North;Move East;Move South;Move West]  
+let rec map : ('a ->'b) ->  'a list -> 'b list =
+  fun f l ->
+  match l with
+  | [] -> []
+  | h::t -> f h :: map f t
 
+let mirror_func num =
+  match num with 
+  | 0 -> 0
+  | 2 -> 4
+  | 3 -> 5
+  | 4 -> 2
+  | 5 -> 3
+  | 1 -> 1
+  | _ -> failwith "Incorrect input"
 
-*)
-
-
-
-
-
-
-
-let findDirection n = 
-  match n with
-  | 0 -> "Pen Down"
-  | 1 ->"Pen Up"
-  | 2 ->"Move North"
-  | 3 ->"Move East"
-  | 4 ->"Move South"
-  | 5 ->"Move West"
-  | _ -> failwith "Incorrect Direction"
-
-  
+let mirror_image l =
+  map mirror_func l;;
