@@ -38,3 +38,8 @@ let rec rotate_90_word l =
   match l with
   | [] -> []
   | h::t -> rotate_90_letter h :: rotate_90_word t;;
+
+let rec repeat n x = 
+  match n with
+  | 0 -> []
+  | n -> x:: repeat x (n-1);;
