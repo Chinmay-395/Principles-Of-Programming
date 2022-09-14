@@ -43,3 +43,28 @@ let rec repeat n x =
   match n with
   | 0 -> []
   | n -> x:: repeat x (n-1);;
+
+(* 
+Pantograph
+[0;2;2;3;3;5;5;4;3;5;4;3;3;5;5;1]
+
+[0; 2; 2; 2; 2; 3; 3; 3; 3; 5; 5; 5; 5; 4; 4; 3; 3; 5; 5; 4; 4; 3; 3;4 3; 3; 5; 5; 5; 5; 1] *)
+
+(* Question 6
+Implement a function
+coverage : int*int -> int list -> (int*int) list
+that given a starting coordinate and a program returns the list of coordinates that the
+program visits. You may introduce helper functions to make your code more readable.
+Also, you need not concern yourself with repetitions. For example:
+# coverage (0 ,0) letter_e ;;
+- : ( int * int ) list =
+[(0 , 0) ; (0 , 0) ; (0 , 1) ; (0 , 2) ; (1 , 2) ; (2 , 2) ; (1 , 2) ; (0 , 2) ; (0 , 1) ;
+(1 , 1) ; (0 , 1) ; (0 , 0) ; (1 , 0) ; (2 , 0) ; (1 , 0) ; (0 , 0) ; (0 , 0) ]   
+*)
+
+(* Need to keep track of the rows and column  *)
+let coverage : int*int -> int list -> (int*int) list =
+  fun startCor l ->
+    match l with
+    | [] -> []
+    | h::t -> failwith "qweqwe"
