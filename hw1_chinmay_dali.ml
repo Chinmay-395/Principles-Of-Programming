@@ -19,5 +19,17 @@ let mirror_func num =
   | 1 -> 1
   | _ -> failwith "Incorrect input"
 
+let rotate_90_func num =
+  match num with 
+  | 0 -> 0
+  | 2 -> 3
+  | 3 -> 4
+  | 4 -> 5
+  | 5 -> 2
+  | 1 -> 1
+  | _ -> failwith "Incorrect input"
+
 let mirror_image l =
   map mirror_func l;;
+
+let rotate_90_letter l = map rotate_90_func l;;
