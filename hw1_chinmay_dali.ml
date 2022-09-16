@@ -45,6 +45,23 @@ let rec repeat: int->'a->'a list =
 
 
 
+(* Pantograph question *)
+
+(* Pantograph With map *)
+
+let rec flatten : 'a list list -> 'a list =
+  fun l ->
+  match l with
+  | [] -> []
+  | h::t -> h @ flatten t
+
+let pantograph n list = flatten (
+    List.map (fun x -> 
+      if (x<>0 && x<>1) 
+      then repeat n x 
+      else repeat 1 x
+    ) list
+  );;
 
 let pantograph_nm n list =
     let rec prepend n acc x =
@@ -55,15 +72,9 @@ let pantograph_nm n list =
           | h :: t -> if (h<>0 && h<>1) then aux (prepend n acc h) t else aux (prepend 1 acc h) t
           in aux [] (List.rev list);;
 
-(* With map *)
 
-(* let pantograph_nm n list =
-    let rec prepend n acc x =
-      if n = 0 then acc else prepend (n-1) (x :: acc) x in
-        let rec aux acc = 
-          function
-          | [] -> acc
-          | h :: t -> if (h<>0 && h<>1) then aux (prepend n acc h) t else aux (prepend 1 acc h) t
-          in aux [] (List.rev list);; *)
+(* Pantograph with fold *)
 
-          
+(* Coverage *)
+(* The coverage will have a helper function which starts the list of the
+   [(0,0)] and uses that to get the next possible co-ordinate *)
