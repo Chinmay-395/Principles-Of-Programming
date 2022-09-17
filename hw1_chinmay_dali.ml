@@ -119,6 +119,16 @@ let rec coverage: int*int -> int list -> (int*int) list =
           then (x_coordinate-1,y_cooridnate)::coverage (x_coordinate-1,y_cooridnate) t else
         failwith "Incorrect Input";;
 
+(* 7 Compress *)
+let compress: int list -> (int*int) list =
+fun l ->
+  let rec aux count acc = function
+      | [] -> [] (* Can only be reached if original list is empty *)
+      | [x] -> (x, count+1) :: acc
+      | a :: (b :: _ as t) -> if a = b then aux (count + 1) acc t
+                              else aux 0 ((a,count+1) :: acc) t in
+    List.rev (aux 0 [] l);;
+
 (* 8. Uncompress 
    8.1: uncompress_m 
    8.2: uncompress_f *)
