@@ -119,11 +119,21 @@ let rec uncompress : (int*int) list -> int list =
     | [] -> []
     | (a,b)::t -> repeat b a @ uncompress t
 (* 8.2 uncompress with map  *)
-let rec uncompress_m list_of_tuples = flatten(List.map (fun tuple -> repeat (snd tuple) (fst tuple)) list_of_tuples);;
-  (* 8.3 uncompress with fold *)
-(* let rec uncompress_f:  (int*int) list -> int list = foldr (fun x n r -> (if (x<>0 && x<>1) 
-      then repeat n x 
-      else repeat 1 x) @ r) [];;  *)
+let rec uncompress_m list_of_tuples = 
+  flatten(
+    List.map 
+      (fun tuple -> repeat (snd tuple) (fst tuple))
+      list_of_tuples
+  );;
+(* 8.3 uncompress with fold *)
+let rec uncompress_foldr : ('a -> 'b -> 'b)  -> 'b -> 'a list -> 'b =
+  fun f a l ->
+  match l with
+  | [] -> a
+  | h::t -> f h (uncompress_foldr f a t)
+let uncompress_f l= 
+  uncompress_foldr (fun x r -> (repeat (snd x) (fst x)) @ r) [] l;;
+    
 
 (* 9. Optimize  *)
 
