@@ -147,4 +147,29 @@ let rec helperFuncOptimize l =
             if(h != 0 && h != 1) then h :: next :: helperFuncOptimize(t)
             else helperFuncOptimize(next :: t);;
 
-let optimize l = List.tl(helperFuncOptimize(l));;
+
+let remove_inital_1: int list -> int list  =
+fun l -> 
+  if List.hd l == 1 then List.tl l else l;;
+
+let optimize l = remove_inital_1(helperFuncOptimize(l));;
+
+mirror_image letter_e;;
+rotate_90_letter letter_e ;;
+rotate_90_word [letter_e;letter_e];;
+repeat 3 "Hello";;
+pantograph 2 letter_e;;
+pantograph_nm 2 letter_e;;
+pantograph_f 2  letter_e;;
+coverage (0,0) letter_e;;
+compress letter_e;;
+uncompress (compress letter_e);;
+uncompress_m (compress letter_e);;
+uncompress_f (compress letter_e);;
+optimize [1];;
+optimize [1;1;1;1];;
+optimize [1;1;1;1;0];;
+optimize [ 1 ; 1 ; 1 ; 1 ; 0 ; 1 ; 0 ; 1 ] ;;
+optimize [ 1 ; 1 ; 1 ; 1 ; 0 ; 1 ; 0 ; 1 ; 1 ; 1 ; 1 ] ;;
+optimize [0;1;0;1];;
+optimize [2;3;4;5];;
