@@ -156,12 +156,4 @@ let rec helperFuncOptimize l =
             if(h != 0 && h != 1) then h :: next :: helperFuncOptimize(t)
             else helperFuncOptimize(next :: t);;
 
-(** This function remove first number '1' in list if exist *)            
-let remove_first_1 l = 
-    match l with 
-    |[] -> []
-    |h::t -> 
-        if(h = 1) then t
-        else h::t;;
-
 let optimize l = List.tl(helperFuncOptimize(l));;
