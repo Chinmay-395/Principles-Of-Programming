@@ -104,7 +104,7 @@ let rec coverage: (int*int) -> int list -> (int*int) list  =
 let compress: int list -> (int*int) list =
 fun l ->
   let rec aux count acc = function
-      | [] -> [] (* Can only be reached if original list is empty *)
+      | [] -> [] 
       | [x] -> (x, count+1) :: acc
       | a :: (b :: _ as t) -> if a = b then aux (count + 1) acc t
                               else aux 0 ((a,count+1) :: acc) t in
@@ -154,7 +154,8 @@ fun l ->
 
 let optimize l = remove_inital_1(helperFuncOptimize(l));;
 
-mirror_image letter_e;;
+(* Running all the example cases in the HW_Assignment *)
+(* mirror_image letter_e;;
 rotate_90_letter letter_e ;;
 rotate_90_word [letter_e;letter_e];;
 repeat 3 "Hello";;
@@ -172,4 +173,4 @@ optimize [1;1;1;1;0];;
 optimize [ 1 ; 1 ; 1 ; 1 ; 0 ; 1 ; 0 ; 1 ] ;;
 optimize [ 1 ; 1 ; 1 ; 1 ; 0 ; 1 ; 0 ; 1 ; 1 ; 1 ; 1 ] ;;
 optimize [0;1;0;1];;
-optimize [2;3;4;5];;
+optimize [2;3;4;5];; *)
