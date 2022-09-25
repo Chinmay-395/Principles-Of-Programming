@@ -130,17 +130,25 @@ else even xs
 (* Define a function that given a list of strings and a number n,
 filters (i.e. keeps) those strings whose length is smaller or
 equal to n *)
-let rec filter_string : string list -> int -> string list = 
+(* let rec filter_string : string list -> int -> string list = 
   fun l n ->
     match l with
     | [] -> []
     | h::t -> 
       if String.length (h) < n
         then h :: filter_string t n
-    else filter_string t n
+    else filter_string t n *)
 
 
 (* Use trace command to get all the steps *)
 (* #trace <function_name> *)
 
-
+(*  *)
+(* Node(
+  33,Node(
+    12,Empty,Node(
+      7,Empty,Empty)
+    ),
+    Node(57,
+      Node(44,
+      Empty,Empty),Empty));; *)
