@@ -26,7 +26,6 @@ let rec mint t =
   | Node(d,Empty,rt) -> min d (mint rt)
   | Node(d,lt,rt) -> min (mint lt) (mint rt)
   | Empty -> failwith "should not be the case" (*failwith "should not be the case"*)
-  | _ -> failwith "Undecided";;
 (** returns largest element in non-empty tree [t].
     Fails if [t] is empty, it should fail. 
     Note: the tree [t] is not assumed to be a bst *)
@@ -37,7 +36,6 @@ let rec maxt t =
   | Node(d,Empty,rt) -> max d (maxt rt)
   | Node(d,lt,rt) -> max (maxt lt) (maxt rt)
   | Empty -> failwith "should not be the case" (*failwith "should not be the case"*)
-  | _ -> failwith "Undecided";;
 (* Determines whether a binary is a binary search tree *)
 
 (* let rec helper=
