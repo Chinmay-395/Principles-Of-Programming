@@ -326,6 +326,37 @@ let t1 : int bt =
             Node(44,Empty,Empty),
             Empty))
 
+(*
+          33
+        /    \ 
+      20     57
+     /  \    / \
+  10   25  44   91
+ *)
+
+let t2 : int bt =
+  Node(33,
+       Node(20,
+            Node(10,Empty,Empty),
+            Node(25,Empty,Empty)),
+       Node(40,
+            Node(35,Empty,Empty),
+            Node(45,Empty,Empty)))
+
+let t3: int bt = Node(13,
+                  Node(10,
+                    Node(7,
+                      Empty,
+                      Node(9,
+                        Node(8,Empty,Empty),
+                          Empty)
+                    ),
+                  Node(12,Empty,Empty)),
+                  Node(15,
+                    Node(14,Empty,Empty),
+                    Node(17,Node(16,Empty,Empty),Empty))
+                )
+                      
 let rec sizet t =
   match t with
   | Empty -> 0
@@ -376,19 +407,42 @@ let rec foldt f a t =
   | Empty -> a
   | Node(d,lt,rt) -> f d (foldt f a lt) (foldt f a rt)
 
-let rec prune t l =
-  failwith "implement"
+(* let rec prune t l =
+  match t with
+  | Empty -> 
+  failwith "implement" *)
 
 (* Returns the list of data items held in leaves 
    Eg. leaves t1 ==> [7;44] *)
 let rec leaves t =
-  failwith "implement"
+  match t with
+  | Empty -> []
+  |Node(d,lt,rt) -> 
+    if (lt=Empty && rt=Empty) 
+      then [d] @ leaves lt @ leaves rt 
+    else [] @ leaves lt @ leaves rt 
+  (* failwith "implement" *)
 
-let rec is_bst t =
-  failwith "implement"
+type 'a bt = Empty | Node of 'a * 'a bt * 'a bt
+
+let rec helper :int bt->int-> int->bool=
+fun t low high ->
+match t with
+| Empty -> true
+| Node(d,lt,rt) -> if ((d < low) && (d>high))
+                    then (helper lt low d && helper rt d high)
+                    else false
+
+let rec is_bst t = helper t Int.min_int Int.max_int;;
+  (* match t with 
+  | Empty -> true
+  | Node(d,lt,rt) -> 
+  failwith "implement" *)
 
 let rec find_bst t k =
-  failwith "implement"
+  match t with 
+  | Empty -> false
+  | Node(d,lt,rt) -> if (d=k) then true else find_bst lt k && find_bst rt k;;
 
 (** fails if key [k] already in [t] *)
 let rec add_bst t k =
@@ -419,7 +473,10 @@ eg. paths_to_nodes t1
 let rec paths_to_nodes t =
   failwith "implement"
 
-
+  (* function for tuple *)
+(* fst;; -->  first value of the tuple *)
+(* snd;; --> second  value of the tuple *)
+(* moving from curried to uncurried *)
 
 
 
