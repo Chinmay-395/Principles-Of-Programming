@@ -45,7 +45,7 @@ Node (33 ,
         [ Node (12 ,[]) ;
           Node (77 ,
                     [ Node (37 ,
-                              [ Node (14 , [])]
+                              [ Node (14 , [Node(15,[])])]
                             ) ;
                       Node (48 , []) ;
                       Node (103 ,[
@@ -66,19 +66,66 @@ Node (n ,[])
 (* Moreover, in this
 assignment general trees will be assumed to be non-empty. *)
 
-let rec count_nodes (Node(_, sub)) =
+let rec count_nodes (Node(k, sub)) =
     List.fold_left (fun n t -> n + count_nodes t) 1 sub;;
+(* The fold_left performs an preOrder Traversal *)
+
+(* Count Nodes 
+       f(f(f 1 ))
+*)
+let rec maper f l = function
+  | [] ->  failwith "Trees aren't empty: Something went wrong" 
+  | h::t -> if(List.length t > 0) then maper f t else f h;;
+
+let rec preOrderTraversal t =
+  match t with
+  | Node(n,[]) -> n::[]
+  | Node(n,subt) -> n :: (maper preOrderTraversal subt);;
+    (* List.fold_right (fun acc t -> k::acc @ preOrderTraversal t) [] sub;; *)
 
 
+(* Code that executes
 
+let rec count_nodes (Node(k, sub)) =
+    List.fold_left (fun n t -> n + count_nodes t) 1 sub;;
+(* The fold_left performs an preOrder Traversal *)
+
+let rec maper f l = function
+  | [] ->  failwith "qwewqe" 
+  | h :: [] -> f h 
+  | h::t -> if(List.length t > 0) then maper f t else f h;;
+
+let rec preOrderTraversal t =
+  match t with
+  | Node(n,[]) -> n::[]
+  | Node(n,subt) -> n :: (maper preOrderTraversal subt);;   
+
+let rec map'' f l =
+   match l with
+  | [] ->  failwith "Impossible" 
+  | h :: [] -> f h 
+  | h::t -> f h @ map'' f t;;
+*)
+
+(* 
+let rec foldr  =
+  fun f a n l ->
+  match l with
+  | [] -> a
+  | h::t -> f h n (foldr f a n t);;
+(* 
+let rec inorderTraversal t =
+  match t with
+  | Node(_,[]) -> 0
+  | Node(k,mtl) -> foldr (fun acc mt -> acc::[] @ inorderTraversal mt) [] mtl *)
 
 let rec height =
   function
   | Node (_, []) -> 1
   | Node (_, x::xs) -> 
     let sum = List.fold_left (+) 0 in
-    2 + sum (max(List.map height xs) (List.map height [x]))
-
+    1 + sum (max(List.map height xs) (List.map height [x]))
+(* 
 let rec height_ =
   function
   | Node (_, []) -> 1
@@ -90,9 +137,22 @@ let rec height'' =
   function
   | Node (_, []) -> 1
   | Node (_, _::xs) -> 1 + List.fold_left max 0 (List.map height'' xs);;
+ *)
 
+(* let rec foldl f a l =
+  match l with
+  | [] -> a
+  | h::t -> foldl f (f a h) t
 
-let rec height'' =
-  function
-  | Node (_, []) -> 1
-  | Node (_, _::xs) -> 1 + List.fold_left max 0 (List.map height'' xs);;
+let rec height_using_Fold_r t =
+  match t with
+  | Node(_, []) -> 1 (** Leaf Node *)
+  | Node(_, h::t) -> max(height_using_Fold_r h, foldl max 0 t) + 1 *)
+
+(* let rec inorder =
+function
+| Node(x,[]) -> [x]
+| Node(x, lst) -> (List.fold_left inorder lst) :: [x] *)
+
+let rec tree_map f (Node (v, sub)) =
+  Node(f v, List.map (tree_map f) sub) *)
