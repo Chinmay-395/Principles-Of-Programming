@@ -86,7 +86,10 @@ let rec preOrderTraversal t =
   | Node(n,[]) -> n::[]
   | Node(n,subt) -> n :: (maper preOrderTraversal subt);;
 
+
   (* Implementing preOrderTraversal using higher-order-function *)
+let rec preOrderTraversal2 (Node(d,listOfChild)) = 
+  d :: List.flatten (List.map preOrderTraversal2 listOfChild) 
 
 
 let rec foldr : ('a -> 'b -> 'b)  -> 'b -> 'a list -> 'b =
