@@ -75,6 +75,8 @@ let rec height =
   | Node (_, []) -> 1
   | Node (_, xs) -> 1 + List.fold_left max 0 (List.map height xs);;
 
+
+
 let rec maper f l =
    match l with
   | [] ->  failwith "Tree cannot be empty" 
@@ -92,18 +94,55 @@ let rec preOrderTraversal2 (Node(d,listOfChild)) =
   d :: List.flatten (List.map preOrderTraversal2 listOfChild) 
 
 
-let rec foldr : ('a -> 'b -> 'b)  -> 'b -> 'a list -> 'b =
-  fun f a l ->
-  match l with
+
+
+let rec preOrderTraversal t =
+  match t with
+  | Node(n,[]) -> n::[]
+  | Node(n,subt) -> n :: (maper preOrderTraversal subt);;   
   | [] -> a
   | h::t -> f h (foldr f a t)
 (* How to implement inorderTraversal using higher-order-function
    *)
+
+  (* let rec inoHelper t =
+    match t with
+    |  *)
+
+let rec inorderTraversal t = 
+  match t with
+  | Node(k,[]) -> k::[]
+  | Node(k,h::t) -> (inorderTraversal h) @ [k] @ List.flatten(List.map inorderTraversal t);;
+
+
+let rec postOrderTraversal t =
+  match t with
+  (* | Node(n,[]) -> n::[] *)
+  | Node(k,subt) -> List.fold_left (fun acc mt -> postOrderTraversal mt @ acc) [] subt @ [k]  ;;
+
+
 let rec inorderTraversal t =
   match t with
-  | Node(_,[]) -> n::[]
-  | Node(k,subt) -> List.fold_left (fun acc mt -> acc::[] @ inorderTraversal mt) [] subt 
+  (* | Node(n,[]) -> n::[] *)
+  | Node(k,subt) -> List.fold_left (fun acc mt -> inorderTraversal mt @ acc) [] subt @ [k]  
     (* List.fold_right (fun acc t -> k::acc @ preOrderTraversal t) [] sub;; *)
 
-
 (* f(f(f(f(f(f(f(12 :: []))::33)::14)::37)::77)::48)::103 *)
+
+let rec maper f l = function
+  | [] ->  failwith "qwewqe" 
+  | h :: [] -> f h 
+  | h::t -> if(List.length t > 0) then maper f t else f h;;
+
+let rec preOrderTraversal t =
+  match t with
+  | Node(n,[]) -> n::[]
+  | Node(n,subt) -> n :: (maper inOrderTraversal subt);;   
+
+(* prof Michael greenberg for language proofing *)
+let rec foldr : ('a -> 'b -> 'b)  -> 'b -> 'a list -> 'b =
+  fun f a l ->
+  match l withlet rec maper f l = function
+  | [] ->  failwith "qwewqe" 
+  | h :: [] -> f h 
+  | h::t -> if(List.length t > 0) then maper f t else f h;;
