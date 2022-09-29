@@ -94,25 +94,11 @@ let rec preOrderTraversal2 (Node(d,listOfChild)) =
   d :: List.flatten (List.map preOrderTraversal2 listOfChild) 
 
 
-
-
-let rec preOrderTraversal t =
-  match t with
-  | Node(n,[]) -> n::[]
-  | Node(n,subt) -> n :: (maper preOrderTraversal subt);;   
-  | [] -> a
-  | h::t -> f h (foldr f a t)
-(* How to implement inorderTraversal using higher-order-function
-   *)
-
-  (* let rec inoHelper t =
-    match t with
-    |  *)
-
 let rec inorderTraversal t = 
   match t with
   | Node(k,[]) -> k::[]
   | Node(k,h::t) -> (inorderTraversal h) @ [k] @ List.flatten(List.map inorderTraversal t);;
+(* f(f(f(f(f(f(f(12 :: []))::33)::14)::37)::77)::48)::103 *)
 
 
 let rec postOrderTraversal t =
@@ -127,22 +113,31 @@ let rec inorderTraversal t =
   | Node(k,subt) -> List.fold_left (fun acc mt -> inorderTraversal mt @ acc) [] subt @ [k]  
     (* List.fold_right (fun acc t -> k::acc @ preOrderTraversal t) [] sub;; *)
 
-(* f(f(f(f(f(f(f(12 :: []))::33)::14)::37)::77)::48)::103 *)
+let rec auxi_func n acc = if n = 0 then acc else auxi_func (n-1) (n::acc)
 
-let rec maper f l = function
-  | [] ->  failwith "qwewqe" 
-  | h :: [] -> f h 
-  | h::t -> if(List.length t > 0) then maper f t else f h;;
+(* 
+(* let rec paths_to_leaves t =
+  let rec helper acc depth = 
+  match depth,t with
+  | depth,Node(n,[]) -> auxi_func depth []
+  | depth,Node(n,subl) -> List.map helper acc subl in helper [] (List.length subl)
+  
+  *) *)
 
-let rec preOrderTraversal t =
+let rec mapHelper f acc l =
+  match l with
+  | [] -> []
+  | h::[] -> f acc h
+  | h::t -> f acc h @ mapHelper f acc t
+
+(* paths_to_leaves 
+initally the accumulator will be 0, the accumulator is the count of depth
+When we get to a leaf we `acc` 
+when you get to next child from the accumulator should be incremented by 1
+*)
+
+let rec paths_to_leaves acc t =
   match t with
-  | Node(n,[]) -> n::[]
-  | Node(n,subt) -> n :: (maper inOrderTraversal subt);;   
+  | Node(k, []) -> []
+  | Node(k,h::t) -> [[acc]] @ paths_to_leaves 0 h @ mapHelper paths_to_leaves (acc+1) t
 
-(* prof Michael greenberg for language proofing *)
-let rec foldr : ('a -> 'b -> 'b)  -> 'b -> 'a list -> 'b =
-  fun f a l ->
-  match l withlet rec maper f l = function
-  | [] ->  failwith "qwewqe" 
-  | h :: [] -> f h 
-  | h::t -> if(List.length t > 0) then maper f t else f h;;
