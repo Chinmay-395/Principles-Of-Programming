@@ -136,7 +136,7 @@ let rec paths_to_leaves1 t =
   (* Attempt-2 *)
 let rec mapHelper f acc l =
   match l with
-  | [] -> failwith "A"
+  | [] -> failwith "A tree cannot be empty"
   | h::[] -> f acc h
   | h::t -> f acc h @ mapHelper f acc t
 
@@ -166,3 +166,23 @@ let rec paths_to_leaves t =
     match t with
     |Node(d,[]) -> [[d]] (** Here handle empty list case *)
     |Node(d, l) -> append_to_front d (mapHelper paths_to_leaves l);;
+
+(* Attempt 3 *)
+
+(* let rec helperNew t arr ans =
+  match t with
+  | Node(x,[]) -> arr :: ans
+  | Node(x, h::t) -> helperNew h (arr::[]) [] @ helperNew t [arr+1] t;; *)
+
+  let mapt f t = 
+  let rec aux tr =
+    match tr with
+    | Node (v, []) -> Node (f v, []) 
+    | Node(v, sub) -> Node (f v, List.map (aux) sub)
+  in aux t;;
+
+(* let foldt f t =
+  let rec aux tr =
+    match tr with
+    | Node(v,[]) -> Node(f v, [])
+    | Node(v,ch) -> Node(f v, List.fold_left (aux) ch) in aux t *)
