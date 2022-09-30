@@ -115,29 +115,54 @@ let rec inorderTraversal t =
 
 let rec auxi_func n acc = if n = 0 then acc else auxi_func (n-1) (n::acc)
 
-(* 
-(* let rec paths_to_leaves t =
-  let rec helper acc depth = 
-  match depth,t with
-  | depth,Node(n,[]) -> auxi_func depth []
-  | depth,Node(n,subl) -> List.map helper acc subl in helper [] (List.length subl)
-  
-  *) *)
 
-let rec mapHelper f acc l =
-  match l with
-  | [] -> []
-  | h::[] -> f acc h
-  | h::t -> f acc h @ mapHelper f acc t
 
 (* paths_to_leaves 
 initally the accumulator will be 0, the accumulator is the count of depth
 When we get to a leaf we `acc` 
-when you get to next child from the accumulator should be incremented by 1
+when you get to next child of the same node then, the accumulator should be incremented by 1
 *)
+  (* Attempt-1 *)
+  let rec path_helper acc lst = 
+  match lst with
+  |[] -> []
+  |Node(n, lst1):: y -> [acc] @ (path_helper 0 lst1) @ ([acc] @ (path_helper (acc+1) y))
 
-let rec paths_to_leaves acc t =
+let rec paths_to_leaves1 t =
   match t with
-  | Node(k, []) -> []
-  | Node(k,h::t) -> [[acc]] @ paths_to_leaves 0 h @ mapHelper paths_to_leaves (acc+1) t
+  | Node(n,[]) -> [n]
+  | Node(n,lst) -> path_helper 0 lst
 
+  (* Attempt-2 *)
+let rec mapHelper f acc l =
+  match l with
+  | [] -> failwith "A"
+  | h::[] -> f acc h
+  | h::t -> f acc h @ mapHelper f acc t
+
+let rec paths_to_leaves_rec acc t =
+  match t with
+  | Node(k, []) -> [[acc]]
+  | Node(k,h::t) -> paths_to_leaves_rec acc h @ mapHelper paths_to_leaves_rec (acc+1) t
+
+let paths_to_leaves2 t = paths_to_leaves_rec 0 t;;
+(* mapi *)
+
+let rec mapHelper f l =
+  match l with
+  | [] -> failwith "A tree is never empty"
+  | h::[] -> f h
+  | h::t -> f h @ mapHelper f t
+
+
+let rec append_to_front n l = 
+    match l with
+    |[] -> []
+    |h :: t -> (n :: h) :: append_to_front n t;;
+
+
+
+let rec paths_to_leaves t = 
+    match t with
+    |Node(d,[]) -> [[d]] (** Here handle empty list case *)
+    |Node(d, l) -> append_to_front d (mapHelper paths_to_leaves l);;
