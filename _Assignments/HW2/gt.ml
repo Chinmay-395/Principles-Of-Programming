@@ -58,6 +58,15 @@ Node (33 ,
         ]
     )
 
+let t3 : int gt =
+Node (33 ,
+        [ Node (12 ,[]) ;
+          Node (14 ,[]) ;
+          Node (15 ,[]) ;
+          Node (16 ,[]) ;
+        ]
+    )
+
 
 let mk_leaf : 'a -> 'a gt =
 fun n ->Node (n ,[])
@@ -95,7 +104,7 @@ let rec inorderTraversal t =
 
 
 
-
+(* Exercise-3 *)
 (* paths_to_leaves 
 initally the accumulator will be 0, the accumulator is the count of depth
 When we get to a leaf we `acc` 
@@ -143,7 +152,7 @@ let rec append_to_front n l =
 
 let rec paths_to_leaves t = 
     match t with
-    |Node(d,[]) -> [[d]] (** Here handle empty list case *)
+    |Node(d,[]) -> [[d]] 
     |Node(d, l) -> append_to_front d (mapHelper paths_to_leaves l);;
  *)
 
@@ -174,22 +183,8 @@ size --> 1
 size --> 5
 size --> 7
              *)
-let rec maper f l =
-   match l with
-  | [] ->  failwith "Tree cannot be empty" 
-  | h::[] -> f h 
-  | h::t -> f h @ maper f t
 
 
-let rec map : ( 'a -> 'b ) -> 'a list -> 'b list  =
-  fun f l ->
-   match l with
-  | [] -> []
-  | h::t -> f h :: map f t
-
-let rec foldt f t = 
-    match t with
-    |Node(d, l) -> f d (map (foldt f) l);;
 (* Attempt-4 *)
 (* let rec paths_to_leaves4 t =
   match t with
@@ -210,8 +205,8 @@ let rec path_to_leaves4 depth_array list =
          *)
 
 (* Attempt-6 *)
-
-let rec maper f l =
+(* Using List.mapi functionality *)
+(* let rec maper f l =
    match l with
   | [] ->  failwith "Tree cannot be empty" 
   | h :: [] -> f h 
@@ -220,11 +215,68 @@ let rec maper f l =
 let rec pathToLeaves t =
   match t with
   | Node(n,[]) -> [n]::[]
-  | Node(n,subt) -> List.mapi (fun index _ -> index::[])(maper pathToLeaves subt);;
+  | Node(n,subt) -> List.mapi (fun index _ -> index::[])(maper pathToLeaves subt);; *)
 
 (* Attempt-7 *)
 
+(* update the tree in such a way that, 
+root is -1 (node 33)
+its first child will be 0 ie (node 12 is 0th)
+its second child will be 1 ie (node 77 is 1st)
+node 37 being 1st node of 77 therefore it will be 0
 
+kind of
+
+Node(-1,[ --> 33
+  Node(0,[]), --> 12
+  Node(1,[ --> 77
+     Node(0,[ --> 37
+       Node(0,[])--> 14
+        ]);
+       Node(1,[]); --> 48
+       Node(2,[]); --> 103
+      ])
+  ])
+])
+*)
+
+let rec map : ( 'a -> 'b ) -> 'a list -> 'b list  =
+  fun f l ->
+   match l with
+  | [] -> []
+  | h::t -> f h :: map f t
+let rec maper f l =
+   match l with
+  | [] ->  failwith "Tree cannot be empty; Something went wrong" 
+  | h :: [] -> f h 
+  | h::t -> f h @ maper f t;;
+
+let rec prepend n l = 
+    match l with
+    |[] -> []
+    |h :: t -> (n :: h) :: prepend n t;;
+
+let rec paths_to_leaves_helper t = 
+    match t with
+    |Node(n,[]) -> [[n]] 
+    |Node(n, subt) -> prepend n (maper paths_to_leaves_helper subt);;
+
+
+let rec convert_into_index l i = 
+    match l with 
+    |[] -> []
+    |Node(n, subt)::t -> Node(i,subt) :: convert_into_index t (i+1);;
+
+let rec update_tree t = 
+    match t with
+    |Node(n, subt) -> Node(n, map update_tree(convert_into_index subt 0));;
+
+let remove_inital_root l = 
+    match l with 
+    |[] -> []
+    |h :: t -> t;;
+
+let paths_to_leaves t = map remove_inital_root (paths_to_leaves_helper (update_tree t));;
 
 (* exercise 6 *)
 let rec mirror t =
@@ -246,5 +298,15 @@ let rec foldt f t =
 let  sumt t = foldt (fun i rs -> i + List.fold_left (fun i j -> i+j) 0 rs) t;;
 let  memt t e =foldt (fun i rs -> i=e || List.exists (fun i -> i) rs) t;;
 
-(** exercise 9 *)
+(* exercise 9 *)
 let mirror' t = foldt (fun i rs -> Node(i, List.rev(rs))) t;;
+
+let rec path_depth l = map List.length l;;
+
+let rec is_leaf_perfect_helper l = 
+    match l with
+    |[] -> true
+    |h::[]-> true
+    |h::next::t -> if(h = next) then is_leaf_perfect_helper (next::t) else false;;
+
+let is_leaf_perfect t = is_leaf_perfect_helper(path_depth(paths_to_leaves t));;
