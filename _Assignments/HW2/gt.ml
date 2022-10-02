@@ -60,21 +60,21 @@ Node (33 ,
 
 
 let mk_leaf : 'a -> 'a gt =
-fun n ->
-Node (n ,[])
+fun n ->Node (n ,[])
 
 (* Moreover, in this
 assignment general trees will be assumed to be non-empty. *)
 
-let rec size (Node(k, sub)) =
-    List.fold_left (fun n t -> n + size t) 1 sub;; (** t is the input*)
 
-
+(* Exercise-1 *)
 let rec height =
   function
   | Node (_, []) -> 1
   | Node (_, xs) -> 1 + List.fold_left max 0 (List.map height xs);;
 
+(* Exercise-2 *)
+let rec size (Node(k, sub)) =
+    List.fold_left (fun n t -> n + size t) 1 sub;; (** t is the input*)
 
 
 let rec maper f l =
@@ -96,9 +96,13 @@ let rec preOrderTraversal2 (Node(d,listOfChild)) =
 
 let rec inorderTraversal t = 
   match t with
+  | Node(k,[]) -> [[k]]
+  | Node(k,h::t) -> (inorderTraversal h) @ [[k]] @ List.flatten(List.map inorderTraversal t);;
+
+(* let rec mirror t = 
+  match t with
   | Node(k,[]) -> k::[]
-  | Node(k,h::t) -> (inorderTraversal h) @ [k] @ List.flatten(List.map inorderTraversal t);;
-(* f(f(f(f(f(f(f(12 :: []))::33)::14)::37)::77)::48)::103 *)
+  | Node(k,h::t) -> List.flatten(List.map mirror t) @ [k] @ (mirror h);; *)
 
 
 let rec postOrderTraversal t =
@@ -113,7 +117,6 @@ let rec inorderTraversal t =
   | Node(k,subt) -> List.fold_left (fun acc mt -> inorderTraversal mt @ acc) [] subt @ [k]  
     (* List.fold_right (fun acc t -> k::acc @ preOrderTraversal t) [] sub;; *)
 
-let rec auxi_func n acc = if n = 0 then acc else auxi_func (n-1) (n::acc)
 
 
 
@@ -123,7 +126,7 @@ When we get to a leaf we `acc`
 when you get to next child of the same node then, the accumulator should be incremented by 1
 *)
   (* Attempt-1 *)
-  let rec path_helper acc lst = 
+  (* let rec path_helper acc lst = 
   match lst with
   |[] -> []
   |Node(n, lst1):: y -> [acc] @ (path_helper 0 lst1) @ ([acc] @ (path_helper (acc+1) y))
@@ -131,24 +134,24 @@ when you get to next child of the same node then, the accumulator should be incr
 let rec paths_to_leaves1 t =
   match t with
   | Node(n,[]) -> [n]
-  | Node(n,lst) -> path_helper 0 lst
+  | Node(n,lst) -> path_helper 0 lst *)
 
   (* Attempt-2 *)
-let rec mapHelper f acc l =
+(* let rec mapHelper2 f acc l =
   match l with
   | [] -> failwith "A tree cannot be empty"
   | h::[] -> f acc h
-  | h::t -> f acc h @ mapHelper f acc t
+  | h::t -> f acc h @ mapHelper2 f acc t
 
-let rec paths_to_leaves_rec acc t =
+let rec paths_to_leaves_helper2 acc t =
   match t with
   | Node(k, []) -> [[acc]]
-  | Node(k,h::t) -> paths_to_leaves_rec acc h @ mapHelper paths_to_leaves_rec (acc+1) t
+  | Node(k,h::t) -> mapHelper2 paths_to_leaves_helper2 (acc+1) t
 
-let paths_to_leaves2 t = paths_to_leaves_rec 0 t;;
+let paths_to_leaves2 t = paths_to_leaves_helper2 0 t;; *)
 (* mapi *)
-
-let rec mapHelper f l =
+(* Attempt-2.1 *)
+(* let rec mapHelper f l =
   match l with
   | [] -> failwith "A tree is never empty"
   | h::[] -> f h
@@ -166,23 +169,83 @@ let rec paths_to_leaves t =
     match t with
     |Node(d,[]) -> [[d]] (** Here handle empty list case *)
     |Node(d, l) -> append_to_front d (mapHelper paths_to_leaves l);;
+ *)
+
 
 (* Attempt 3 *)
 
-(* let rec helperNew t arr ans =
+(* The trace output of the size
+size t;;
+size <--
+  Node (33,
+   [Node (12, []);
+    Node (77,
+     [Node (37, [Node (14, [])]); 
+     Node (48, []); Node (103, [])])])
+size <-- Node (12, [])
+size --> 1
+size <--
+  Node (77,
+   [Node (37, [Node (14, [])]); Node (48, []); Node (103, [])])
+size <-- Node (37, [Node (14, [])])
+size <-- Node (14, [])
+size --> 1
+size --> 2
+size <-- Node (48, [])
+size --> 1
+size <-- Node (103, [])
+size --> 1
+size --> 5
+size --> 7
+             *)
+let rec maper f l =
+   match l with
+  | [] ->  failwith "Tree cannot be empty" 
+  | h::[] -> f h 
+  | h::t -> f h @ maper f t
+
+
+
+(* let rec foldingSomething (Node(k, sub)) =
+    List.fold_left (fun n lst -> n :: maper foldingSomething lst) [] sub;;  *)
+
+let rec map : ( 'a -> 'b ) -> 'a list -> 'b list  =
+  fun f l ->
+   match l with
+  | [] -> []
+  | h::t -> f h :: map f t
+
+let rec foldt f t = 
+    match t with
+    |Node(d, l) -> f d (map (foldt f) l);;
+(* Attempt-4 *)
+(* let rec paths_to_leaves4 t =
   match t with
-  | Node(x,[]) -> arr :: ans
-  | Node(x, h::t) -> helperNew h (arr::[]) [] @ helperNew t [arr+1] t;; *)
+  | Node(k,[]) -> [[]]
+  | Node(k,ch) -> map (fun x y -> x::y::[]) ch;; *)
 
-  let mapt f t = 
-  let rec aux tr =
-    match tr with
-    | Node (v, []) -> Node (f v, []) 
-    | Node(v, sub) -> Node (f v, List.map (aux) sub)
-  in aux t;;
+(* Attempt-5 *)
 
-(* let foldt f t =
-  let rec aux tr =
-    match tr with
-    | Node(v,[]) -> Node(f v, [])
-    | Node(v,ch) -> Node(f v, List.fold_left (aux) ch) in aux t *)
+(* let rec auxi_func n acc = if n = 0 then acc else auxi_func (n-1) (n::acc)
+
+let rec path_to_leaves4 depth_array list =
+  let rec prepend index depth_array (Node(x,h::t)) =
+    if(h == []) then depth_array else prepend (index+1) (index::depth_array) (Node(x,ch)) in
+      let rec aux acc = function
+        | [] -> acc
+        | h::t
+
+         *)
+
+(* Attempt-6 *)
+
+let rec maper f l =
+   match l with
+  | [] ->  failwith "Tree cannot be empty" 
+  | h :: [] -> f h 
+  | h::t -> f h @ maper f t;;
+
+let rec pathToLeaves t =
+  match t with
+  | Node(n,[]) -> [n]::[]
+  | Node(n,subt) -> List.mapi (fun index _ -> index::[])(maper pathToLeaves subt);;
