@@ -62,9 +62,6 @@ Node (33 ,
 let mk_leaf : 'a -> 'a gt =
 fun n ->Node (n ,[])
 
-(* Moreover, in this
-assignment general trees will be assumed to be non-empty. *)
-
 
 (* Exercise-1 *)
 let rec height =
@@ -74,41 +71,20 @@ let rec height =
 
 (* Exercise-2 *)
 let rec size (Node(k, sub)) =
-    List.fold_left (fun n t -> n + size t) 1 sub;; (** t is the input*)
+    List.fold_left (fun n t -> n + size t) 1 sub;; 
 
 
-let rec maper f l =
-   match l with
-  | [] ->  failwith "Tree cannot be empty" 
-  | h :: [] -> f h 
-  | h::t -> f h @ maper f t;;
-
-let rec preOrderTraversal t =
-  match t with
-  | Node(n,[]) -> n::[]
-  | Node(n,subt) -> n :: (maper preOrderTraversal subt);;
+(* Exercise-5 *)
+(* Implementing preOrderTraversal using higher-order-function *)
+let rec preorder (Node(d,listOfChild)) = 
+  d :: List.flatten (List.map preorder listOfChild) 
 
 
-  (* Implementing preOrderTraversal using higher-order-function *)
-let rec preOrderTraversal2 (Node(d,listOfChild)) = 
-  d :: List.flatten (List.map preOrderTraversal2 listOfChild) 
 
-
-let rec inorderTraversal t = 
-  match t with
-  | Node(k,[]) -> [[k]]
-  | Node(k,h::t) -> (inorderTraversal h) @ [[k]] @ List.flatten(List.map inorderTraversal t);;
-
-(* let rec mirror t = 
-  match t with
-  | Node(k,[]) -> k::[]
-  | Node(k,h::t) -> List.flatten(List.map mirror t) @ [k] @ (mirror h);; *)
-
-
-let rec postOrderTraversal t =
+let rec postorder t =
   match t with
   (* | Node(n,[]) -> n::[] *)
-  | Node(k,subt) -> List.fold_left (fun acc mt -> postOrderTraversal mt @ acc) [] subt @ [k]  ;;
+  | Node(k,subt) -> List.fold_left (fun acc mt -> postorder mt @ acc) [] subt @ [k]  ;;
 
 
 let rec inorderTraversal t =
@@ -205,10 +181,6 @@ let rec maper f l =
   | h::t -> f h @ maper f t
 
 
-
-(* let rec foldingSomething (Node(k, sub)) =
-    List.fold_left (fun n lst -> n :: maper foldingSomething lst) [] sub;;  *)
-
 let rec map : ( 'a -> 'b ) -> 'a list -> 'b list  =
   fun f l ->
    match l with
@@ -249,3 +221,13 @@ let rec pathToLeaves t =
   match t with
   | Node(n,[]) -> [n]::[]
   | Node(n,subt) -> List.mapi (fun index _ -> index::[])(maper pathToLeaves subt);;
+
+(* Attempt-7 *)
+
+
+
+(* exercise 6 *)
+let rec mirror t =
+    match t with
+    |Node(n, []) -> Node(n, [])
+    |Node(n, subt) -> Node(n, List.rev(map mirror subt));;
