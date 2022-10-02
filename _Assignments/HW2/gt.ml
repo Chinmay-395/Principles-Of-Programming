@@ -232,8 +232,19 @@ let rec mirror t =
     |Node(n, []) -> Node(n, [])
     |Node(n, subt) -> Node(n, List.rev(map mirror subt));;
 
-
+(* exercise-7 *)
 let rec mapt f t = 
     match t with 
     |Node(n, []) -> Node(f n, []);
     |Node(n, subt) -> Node(f n, map (mapt f) subt);;
+
+(* exercise-8 *)
+let rec foldt f t = 
+  match t with
+  |Node(n, subt) -> f n (map (foldt f) subt);;
+
+let  sumt t = foldt (fun i rs -> i + List.fold_left (fun i j -> i+j) 0 rs) t;;
+let  memt t e =foldt (fun i rs -> i=e || List.exists (fun i -> i) rs) t;;
+
+(** exercise 9 *)
+let mirror' t = foldt (fun i rs -> Node(i, List.rev(rs))) t;;
