@@ -231,3 +231,9 @@ let rec mirror t =
     match t with
     |Node(n, []) -> Node(n, [])
     |Node(n, subt) -> Node(n, List.rev(map mirror subt));;
+
+
+let rec mapt f t = 
+    match t with 
+    |Node(n, []) -> Node(f n, []);
+    |Node(n, subt) -> Node(f n, map (mapt f) subt);;
