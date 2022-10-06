@@ -83,10 +83,6 @@ let rec size (Node(k, sub)) =
     List.fold_left (fun n t -> n + size t) 1 sub;; 
 
 
-(* Exercise-5 *)
-(* Implementing preOrderTraversal using higher-order-function *)
-let rec preorder (Node(d,listOfChild)) = 
-  d :: List.flatten (List.map preorder listOfChild) 
 
 
 
@@ -278,6 +274,22 @@ let remove_inital_root l =
 
 let paths_to_leaves t = map remove_inital_root (paths_to_leaves_helper (update_tree t));;
 
+(* exercise 4 *)
+let rec path_depth l = map List.length l;;
+
+let rec is_leaf_perfect_helper l = 
+    match l with
+    |[] -> true
+    |h::[]-> true
+    |h::next::t -> if(h = next) then is_leaf_perfect_helper (next::t) else false;;
+
+let is_leaf_perfect t = is_leaf_perfect_helper(path_depth(paths_to_leaves t));;
+
+(* Exercise-5 *)
+(* Implementing preOrderTraversal using higher-order-function *)
+let rec preorder (Node(d,listOfChild)) = 
+  d :: List.flatten (List.map preorder listOfChild) 
+
 (* exercise 6 *)
 let rec mirror t =
     match t with
@@ -301,12 +313,9 @@ let  memt t e =foldt (fun i rs -> i=e || List.exists (fun i -> i) rs) t;;
 (* exercise 9 *)
 let mirror' t = foldt (fun i rs -> Node(i, List.rev(rs))) t;;
 
-let rec path_depth l = map List.length l;;
 
-let rec is_leaf_perfect_helper l = 
-    match l with
-    |[] -> true
-    |h::[]-> true
-    |h::next::t -> if(h = next) then is_leaf_perfect_helper (next::t) else false;;
-
-let is_leaf_perfect t = is_leaf_perfect_helper(path_depth(paths_to_leaves t));;
+let paths_to_leaves_with_fold (t:'a gt) : int list list = 
+  let rec aux (acc: int list) (t: 'a gt): int list list =
+    match t with
+    | Node(_,[]) -> [acc]
+    | Node(k,ts) -> List.flatten (List.mapi(fun idx t -> aux (acc @ [idx]) t) ts) in aux [] t
