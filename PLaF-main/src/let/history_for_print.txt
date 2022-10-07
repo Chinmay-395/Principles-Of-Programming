@@ -1,0 +1,1000 @@
+  545  cd Financials/
+  546  zip -r All-Documents-Chinmay-Dali Chinmay-Dali/
+  547  zip -r All-Documents-Preeti-Dali Preeti-Dali/
+  548  zip -r All-Documents-Vinod-Dali Vinod-Dali/
+  549  zip -r All-Documents-Preeti-Dali Preeti-Dali/
+  550  zip -r All-Documents-Vinod-Dali Vinod-Dali/
+  551  sudo apt remove ksnip
+  552  sudo apt remove Superpaper
+  553  pip3 uninstall superpaper
+  554  sudo apt install forticlient
+  555  sudo apt-get update
+  556  wget -O - https://repo.fortinet.com/repo/6.4/ubuntu/DEB-GPG-KEY | sudo apt-key add -
+  557  sudo tee /etc/apt/sources.list.d/forticlient.list<<EOF
+  558  deb [arch=amd64] https://repo.fortinet.com/repo/7.0/ubuntu/ /bionic multiverse
+  559  EOF
+  560  sudo apt update
+  561  sudo apt install forticlient
+  562  sudo apt autoremove --purge forticlient
+  563  sudo apt install obs-studio
+  564  sudo snap install auto-cpufreq
+  565  sudo auto-cpufreq --monitor
+  566  sudo snap install auto-cpufreq
+  567  auto-cpufrq --help
+  568  auto-cpufreq
+  569  auto-cpufreq --help
+  570  sudo auto-cpufreq --stats
+  571  sudo sudo apt install obs-studio
+  572  sudo auto-freq --stats
+  573  sudo auto-cpufreq --stats
+  574  sudo auto-cpufreq --live
+  575  auto-cpufreq --stats
+  576  sudo apt-get --purge auto-cpufreq
+  577  sudo apt-get purge --auto-remove auto-cpufreq
+  578  auto-cpufreq
+  579  sudo auto-cpufreq --remove
+  580  auto-cpufreq
+  581  sudo apt install libimobiledevice6 -y
+  582  mkdir home/ iphone7s\ Backups
+  583  sudo apt-get install usbmuxd libimobiledevice6 libimobiledevice-utils
+  584  idevicebackup
+  585  idevicebackup2
+  586  dir
+  587  sudo powertop
+  588  sudo install powertop
+  589  sudo apt install powertop
+  590  sudo powertop
+  591  auto-cpufreq
+  592  snap
+  593  sudo snap install auto-cpufreq
+  594  sudo apt-get remove powertop 
+  595  auto-cpufreq --help
+  596  auto-cpufreq --live
+  597  sudo auto-cpufreq --live
+  598  timedatectl
+  599  timedatectl list-timezones
+  600  sudo timedatectl set-timezone America/New_York
+  601  sudo auto-cpufreq --install
+  602  auto-cpufreq --stats
+  603  ps aux | grep "tlp"
+  604  sudo tlp stat
+  605  pgrep -a tlp
+  606  tlp-stat -s
+  607  sh SecureW2_JoinNow.run
+  608  cd down
+  609  dir
+  610  cd Downloads/
+  611  sh SecureW2_JoinNow.run
+  612  systemctl hibernate
+  613  apt-get install erlang
+  614  sudo apt-get install erlang
+  615  brew install opam
+  616  sudo apt-get install opam
+  617  cd Downloads/
+  618  ls
+  619  sudo dpkg -i https://www.virtualbox.org/wiki/Downloads
+  620  sudo apt -i https://www.virtualbox.org/wiki/Downloads
+  621  sudo apt install https://www.virtualbox.org/wiki/Downloads
+  622  sudo apt install ./virtualbox-6.1_6.1.38-153438_Ubuntu_jammy_amd64.deb 
+  623  opam install
+  624  opam install utop
+  625  install opam
+  626  sudo apt-get install opam
+  627  opam install utop
+  628  opam init
+  629  eval `opam env`
+  630  eval `opam env` --switch=default
+  631  opam install dune utop ocaml-lsp-server
+  632  opam install utop
+  633  utop
+  634  sudo apt install utop
+  635  utop
+  636  clear
+  637  utop
+  638  clear
+  639  utop
+  640  clear
+  641  utop
+  642  swapon --show
+  643  let min3:int i j k 
+  644  utop
+  645  dir
+  646  utop
+  647  java -version
+  648  dmidecode | grep -A3 '^System Information'
+  649  sudo dmidecode | grep -A3 '^System Information'
+  650  utop
+  651  emacs A.java
+  652  ls -la
+  653  java A
+  654  javac A
+  655  javac A.java 
+  656  git status
+  657  git add practice1.ml 
+  658  git commit -m "completed the lecture 1 notes and practice exercise"
+  659  git status
+  660  utop
+  661  utop
+  662  git status
+  663  git add practice1.ml 
+  664  git commit -m "The stutter function doubt"
+  665  git status
+  666  git mv lect1.ml lecture_1
+  667  git mv lect1.txt lecture_1
+  668  git add .
+  669  git commit -m "till maps functions"
+  670  git push -u origin main
+  671  utop;;
+  672  utop
+  673  clear
+  674  utop
+  675  dir
+  676  emacs
+  677  utop
+  678  dir
+  679  cd Downloads/
+  680  utop
+  681  opam -v
+  682  . vscode
+  683  vscode
+  684  java -v
+  685  java -version
+  686  dir
+  687  cd HW1/
+  688  dir
+  689  cd hw1_stub/
+  690  dir
+  691  javac TextSwap.java 
+  692  javac --version
+  693  sudo apt install default-jdk
+  694  javac --version
+  695  javac TextSwap.java 
+  696  java TextSwap 
+  697  dir
+  698  cd HW1/
+  699  dir
+  700  cd hw1_stub/
+  701  java TextSwap 4 letters.txt 
+  702  java TextSwap.java
+  703  java TextSwap.java 
+  704  cd HW1/copy_hw1/
+  705  dir
+  706  javac TextSwap.java 
+  707  java TextSwap 4 letters.txt
+  708  javac TextSwap.java 
+  709  java TextSwap 4 letters.txt 
+  710  git status
+  711  git add practice1.ml 
+  712  git commit -m "The trace function"
+  713  git status
+  714  git add hw1_chinmay_dali.ml 
+  715  git commit -m "The mirror_image question has been solved"
+  716  git push -u origin master
+  717  git push -u origin main
+  718  git add hw1_chinmay_dali.ml 
+  719  git commit -m "rotate 90 letter"
+  720  git push -u origin main
+  721  git add hw1_chinmay_dali.ml 
+  722  git commit -m "rotate-90-word"
+  723  git push -u origin main
+  724  git status
+  725  git add hw1_chinmay_dali.ml 
+  726  git commit -m "the repeat functionality has been added"
+  727  git push -u origin main
+  728  git status
+  729  git add hw1_chinmay_dali.ml 
+  730  git commit -m "On going Q5 & Q6"
+  731  git push -u origin main
+  732  git status
+  733  git add hw1_chinmay_dali.ml 
+  734  git commit -m "fixed repeat question wrt parameter"
+  735  git push -u origin main
+  736  git diff hw1_chinmay_dali.ml
+  737  git status
+  738  git add hw1_chinmay_dali.ml 
+  739  git commit -m "pantograph_nm function done"
+  740  git push -u origin main
+  741  git add hw1_chinmay_dali.ml 
+  742  git commit -m "The pantograph_nm functionality added"
+  743  git push -u origin main
+  744  git status
+  745  git add hw1_chinmay_dali.ml 
+  746  git commit -m "The pantograph with map also completed"
+  747  git add hw1_chinmay_dali.ml 
+  748  git commit -m "added optimize"
+  749  git status
+  750  git add hw1_chinmay_dali.ml 
+  751  git commit -m "compress & uncompress"
+  752  git push -u origin main
+  753  git add hw1_chinmay_dali.ml 
+  754  git commit -m "fixes and comments"
+  755  git push -u origin main
+  756  git add hw1_chinmay_dali.ml 
+  757  git commit -m "the fold functionality stuff added"
+  758  git push -u origin main 
+  759  git status
+  760  git hw1_chinmay_dali.ml
+  761  git add hw1_chinmay_dali.ml
+  762  git commit -m "The compress_f functionality added"
+  763  git push -u origin main
+  764  git add hw1_chinmay_dali.ml
+  765  git commit -m "All the answers match"
+  766  git push -u origin main 
+  767  utop
+  768  utop
+  769  javac TextSwap.java 
+  770  java TextSwap 4 letters.txt 
+  771  git status
+  772  git commit -m "the final submission"
+  773  git status
+  774  git add hw1_chinmay_dali.ml
+  775  git commit -m "the final submission"
+  776  git push -u origin main
+  777  utop
+  778  dir
+  779  cd Graduate_Study/CS-510
+  780  dir
+  781  utop
+  782  cd hw1_stub_checking/
+  783  dir
+  784  javac TextSwap.java
+  785  java TextSwap 4 letters.txt 
+  786  java TextSwap 3 letters.txt 
+  787  javac TextSwap.java
+  788  java TextSwap 5 letters.txt 
+  789  javac TextSwap.java
+  790  java TextSwap 5 letters.txt 
+  791  a
+  792  java TextSwap 5 letters.txt 
+  793  javac TextSwap.java
+  794  javac Swapper.java 
+  795  java TextSwap 5 letters.txt 
+  796  javac TextSwap.java
+  797  javac Swapper.java 
+  798  java TextSwap 5 letters.txt 
+  799  dir
+  800  cd hw1_Chinmay_dali_CS511_C/
+  801  javac TextSwap.java 
+  802  java TextSwap 5 letters.txt 
+  803  dir
+  804  cd Downloads/
+  805  utop
+  806  groovy -version
+  807  groovy exercise.groovy 
+  808  emacs
+  809  groovy --version
+  810  sudo snap install groovy
+  811  groovy --version
+  812  sudo snap install groovy
+  813  curl -s get.sdkman.io | bash
+  814  source "/home/$USER/.sdkman/bin/sdkman-init.sh"
+  815  groovy -version
+  816  sdk install groovy
+  817  groovy -version
+  818  dir
+  819  cd Downloads/
+  820  ;;
+  821  cd ../
+  822  dir
+  823  cd Graduate_Study/CS-510/lecture_
+  824  cd Graduate_Study/CS-510/lecture_3
+  825  apt-get install opam
+  826  sudo apt-get install opam
+  827  opam -version
+  828  opam install menhir
+  829  dir
+  830  repeat 10 groovy exercise
+  831  groovy -version
+  832  sudo dmidecode -s system-version
+  833  udo dmidecode | grep Version | sed -n '2p'
+  834  sudo dmidecode | grep Version | sed -n '2p'
+  835  sudo dmidecode | grep 'SKU Number' | head -1
+  836  sudo dmidecode | grep -A 9 "System Information"
+  837  cd Home
+  838  dir
+  839  cd Graduate_Study/
+  840  dir
+  841  g++ --version
+  842  g++ new.cpp
+  843  ./a.out 
+  844  g++ new.cpp
+  845  ./a.out 
+  846  g++ new.cpp
+  847  ./a.out 
+  848  g++ new.cpp
+  849  ./a.out 
+  850  g++ new.cpp
+  851  ./a.out 
+  852  g++ new.cpp
+  853  ./a.out 
+  854  g++ new.cpp
+  855  ./a.out 
+  856  dir
+  857  dir
+  858  groovy lect1.groovy 
+  859  groovy repeat 10 lect1.groovy 
+  860  repeat 10 groovy lect1
+  861  groovy lect1.groovy 
+  862  repeat 10 groovy lect1.groovy 
+  863  repeat 10 groovy lect1
+  864  groovy lect1.groovy 
+  865  groovy lect1.groovy 
+  866  for i in {1..10}; do groovy lect1.groovy; done
+  867  dir
+  868  utop
+  869  utop
+  870  dir
+  871  for i in {1..10}; do groovy lect1.groovy; done
+  872  for i in {1..10}; do groovy exercise.groovy; done
+  873  dir
+  874  cd EB4/
+  875  for i in {1..10}; do groovy ex1.groovy; done
+  876  dir
+  877  git status
+  878  git add _Assignments/
+  879  dir
+  880  git commit -m "starting assignment 2"
+  881  git push -u origin main
+  882  utop
+  883  cd _Assignments/
+  884  di
+  885  cd HW2
+  886  dir
+  887  utop
+  888  git status
+  889  git add PLaF-main/
+  890  git commit -m "The base source code"
+  891  git --help
+  892  git rm 99_ocaml_prob.ml 
+  893  help
+  894  rm 99_ocaml_prob.ml 
+  895  git add practice1.ml 
+  896  git commit -m "The 99 ocaml problem"
+  897  git add lecture_2
+  898  git commit -m "Added the lecture 2"
+  899  git add lecture_4/
+  900  git commit -m "The lecture 4 on 22 Sep 2022"
+  901  git add lecture_4/chinmay_dali_quiz2.ml 
+  902  git commit -m "removed the unused code"
+  903  git status
+  904  git rm hw1_chinmay_dali.ml 
+  905  git status
+  906  git commit -m "moved a few files"
+  907  git status
+  908  git commit _Assignments/HW2/gt.ml 
+  909  git status
+  910  git add .
+  911  git status
+  912  git commit -m "The HW2 update"
+  913  type ’a gt = Node of ’a *( ’ a gt ) list
+  914  utop
+  915  g++ bestFit.cpp -a
+  916  g++ bestFit.cpp 
+  917  ./ a.out 
+  918  ./ a
+  919  ./a.out 
+  920  .vscode
+  921  code --version
+  922  code
+  923  . code
+  924  ./ code
+  925  code .
+  926  dir
+  927  git init
+  928  git commit -m "the first commit"
+  929  git add .
+  930  git commit -m "the first commit"
+  931  groovy ex2.groovy 
+  932  for i in {1..10}; do groovy lect1.groovy; done
+  933  clear
+  934  for i in {1..10}; do groovy ex2.groovy; done
+  935  for i in {1..10}; do groovy ex9.groovy; done
+  936  for i in {1..100}; do groovy ex9.groovy; done
+  937  cd EB4/
+  938  DIR
+  939  groovy ex1.groovy 
+  940  for i in {1..10}; do groovy ex1.groovy; done
+  941  groovy ex1.groovy 
+  942  groovy ex2.groovy 
+  943  groovy ex1.groovy 
+  944  for i in {1..10}; do groovy ex1.groovy; done
+  945  groovy ex2.groovy 
+  946  cd Exercise_Booklets/EXB4/
+  947  dir
+  948  groovy eb4.groovy 
+  949  dir
+  950  cd lecture_sep_19
+  951  dir
+  952  groovy class.groovy 
+  953  for i in {1..10}; do groovy class.groovy; done
+  954  cd EB4
+  955  dir
+  956  clear
+  957  dir
+  958  npm start
+  959  code .
+  960  dir
+  961  cd Exercise_Booklets/EXB4
+  962  groovy ex8.groovy 
+  963  clear
+  964  groovy ex8.groovy 
+  965  clear
+  966  dir
+  967  groovy ex8.groovy 
+  968  groovy ex9.groovy 
+  969  groovy ex7.groovy 
+  970  dir
+  971  cd HW2/hw2_stub/
+  972  dir
+  973  javac Assignment2.java 
+  974  java Assignment2 
+  975  dir
+  976  git status
+  977  git add .
+  978  git commit -m "added the lecture 3 & 4"
+  979  git push -u origin main
+  980  cd _Assignments/HW2/
+  981  dir
+  982  utop
+  983  dir
+  984  cd Exercise_Booklets/EXB4/
+  985  groovy ex4.groovy 
+  986  ex5.groovy groovy
+  987  groovy ex5.groovy
+  988  dir
+  989  cd ../
+  990  cd home/
+  991  dir
+  992  ls -la
+  993  cd ../
+  994  dir
+  995  cd Downloads/
+  996  dir
+  997  groovy q3d.groovy 
+  998  dir
+  999  clear
+ 1000  groovy q3d.groovy 
+ 1001  clear
+ 1002  groovy q3d.groovy 
+ 1003  dir
+ 1004  git status
+ 1005  git add .
+ 1006  git commit -m "all the stuff till Sep 28"
+ 1007  git push -u origin main
+ 1008  git origin
+ 1009  git --help
+ 1010  git remote -v
+ 1011  git remote add origin https://github.com/Chinmay-395/CS511-Concurrent-Programming.git
+ 1012  git branch -M main
+ 1013  git push -u origin main
+ 1014  dir
+ 1015  git add lecture_26
+ 1016  git add lecture_sep_26/
+ 1017  git commit -m "prof's code"
+ 1018  git status
+ 1019  cd Downloads/
+ 1020  dir
+ 1021  groovy q3d.groovy 
+ 1022  cd Graduate_Study/CS-510/_Assignments/HW2/
+ 1023  dir
+ 1024  utop
+ 1025  clear
+ 1026  utop
+ 1027  git status 
+ 1028  git add .
+ 1029  git commit -m "Height and preOrderTraversal is completed"
+ 1030  git push -u origin main
+ 1031  dir
+ 1032  git status
+ 1033  git add _Assignments/HW2/
+ 1034  dir
+ 1035  git status
+ 1036  git commit -m "THe first question is done"
+ 1037  git add _Assignments/HW2/gt.ml 
+ 1038  git commit -m "the pre-order-traversal with higher-order-function"
+ 1039  git status
+ 1040  git commit _Assignments/HW2/gt.ml 
+ 1041  dir
+ 1042  cd _Assignments/HW2
+ 1043  dir
+ 1044  utop
+ 1045  dir
+ 1046  utop
+ 1047  dune utop
+ 1048  code .
+ 1049  dune clean
+ 1050  dune clear
+ 1051  dune utop
+ 1052  sudo opam install menhir
+ 1053  clear
+ 1054  dune utop
+ 1055  dune clean
+ 1056  dune build
+ 1057  dune utop 
+ 1058  dune ut
+ 1059  utop
+ 1060  dir
+ 1061  cd src/
+ 1062  dune clean
+ 1063  dune utop
+ 1064  utop
+ 1065  dir
+ 1066  cd Graduate_Study/CS510
+ 1067  cd Graduate_Study/
+ 1068  dir
+ 1069  CS-510
+ 1070  cd CS-510
+ 1071  dir
+ 1072  cd _Assignments/
+ 1073  dir
+ 1074  cd HW2
+ 1075  dir
+ 1076  utop
+ 1077  dir
+ 1078  cd../../../
+ 1079  \cd ../../../
+ 1080  cd ../
+ 1081  dir
+ 1082  cd Downloads/
+ 1083  dir
+ 1084  cd stub_q3/
+ 1085  dir
+ 1086  utop
+ 1087  dir
+ 1088  cd src/
+ 1089  dir
+ 1090  utop
+ 1091  dune utop
+ 1092  sudo apt install ocaml-dune
+ 1093  dune utop
+ 1094  opam install menhir
+ 1095  dune utop
+ 1096  opam install dune
+ 1097  utop
+ 1098  dune --version
+ 1099  dune utop
+ 1100  menhir -version
+ 1101  menhir --version
+ 1102  sudo apt install menhir
+ 1103  opam install menhir
+ 1104  opam install ounit2
+ 1105  opam install dune
+ 1106  dune utop
+ 1107  dir
+ 1108  dune utop
+ 1109  dune build
+ 1110  dir
+ 1111  cd ../
+ 1112  dir
+ 1113  cd ./Chinmay_&_Tan
+ 1114  utop
+ 1115  cd Downloads/
+ 1116  utop
+ 1117  git status
+ 1118  git add _Assignments/
+ 1119  git commit -m "The pre/in/post order traversal"
+ 1120  dir
+ 1121  git status
+ 1122  git add _Assignments/HW2/gt.ml 
+ 1123  git commit -m "The incomplete path_to_leaves function"
+ 1124  git push -u origin main
+ 1125  git add _Assignments/
+ 1126  git commit -m "some progress"
+ 1127  git status
+ 1128  git add lecture_5/
+ 1129  git commit -m "lecture 5 added"
+ 1130  git add _Assignments/
+ 1131  git commit -m "The mapt function"
+ 1132  git push -u origin main
+ 1133  utop
+ 1134  cd Graduate_Study/
+ 1135  dir
+ 1136  cd CS-511
+ 1137  dir
+ 1138  cs HW2/
+ 1139  dir
+ 1140  cd ../
+ 1141  cd CS-510
+ 1142  dir
+ 1143  cs _Assignments/
+ 1144  dir
+ 1145  cd _Assignments/
+ 1146  dir
+ 1147  cd HW2
+ 1148  dir
+ 1149  utop
+ 1150  git status
+ 1151  git add _Assignments/
+ 1152  git commit -m "paths_to_leaves approach"
+ 1153  git push -u origin main
+ 1154  git status
+ 1155  git add _Assignments/
+ 1156  git commit -m "mirror function"
+ 1157  git add _Assignments/
+ 1158  git commit -m "the mapt function"
+ 1159  git add _Assignments/
+ 1160  git commit -m "foldt & mapt"
+ 1161  git add .
+ 1162  git commit -m "HW2"
+ 1163  dir
+ 1164  cd HW2
+ 1165  dir
+ 1166  cd hw2_stub/
+ 1167  dir
+ 1168  javac Bakery.java 
+ 1169  java Bakery
+ 1170  java Bakery.java
+ 1171  javac Bakery.java 
+ 1172  java Bakery
+ 1173  javac Assignment2.java 
+ 1174  javac Bakery.java 
+ 1175  javac BreadType.java 
+ 1176  javac Customer.java 
+ 1177  java Bakery 
+ 1178  java Bakery.java 
+ 1179  java Assignment2 
+ 1180  javac Customer.java 
+ 1181  java Customer 
+ 1182  java Assignment2 
+ 1183  clear
+ 1184  javac Customer.java 
+ 1185  java Assignment2 
+ 1186  javac Customer.java 
+ 1187  java Assignment2 
+ 1188  javac Assignment2.java 
+ 1189  javac Bakery.java 
+ 1190  javac BreadType.java 
+ 1191  javac Customer.java 
+ 1192  java Assignment2 
+ 1193  javac Customer.java 
+ 1194  java Assignment2 
+ 1195  javac Bakery.java 
+ 1196  java Assignment2 
+ 1197  javac Bakery.java 
+ 1198  java Assignment2 
+ 1199  cd _Assignments/
+ 1200  dir
+ 1201  cd HW2
+ 1202  dir
+ 1203  utop
+ 1204  cd Downloads/
+ 1205  dir
+ 1206  utop
+ 1207  cd hw2_stub/
+ 1208  dir
+ 1209  dir
+ 1210  cd hw2_stub/
+ 1211  dir
+ 1212  java Assignment2 
+ 1213  cd ../
+ 1214  dir
+ 1215  cd ../
+ 1216  dir
+ 1217  cd SchoolWork-26879d1368a935cfcb19451dc353a00e9b3405ee/
+ 1218  dir
+ 1219  cd Concurrent\ Programming/
+ 1220  dir
+ 1221  cd HW2/
+ 1222  dir
+ 1223  javac Assignment2.java 
+ 1224  java Assignment2 
+ 1225  cd ../../
+ 1226  dir
+ 1227  cd CS_511_ConcurrentProgramming-master/
+ 1228  dir
+ 1229  cd hw2
+ 1230  dir
+ 1231  ls -la
+ 1232  cd hw2_YuFu\ Liao\ \&\ JiYuan\ Xia/
+ 1233  dir
+ 1234  javac Assignment2.java 
+ 1235  java Assignment2 
+ 1236  cd ../../
+ 1237  dir
+ 1238  cd CS511-Concurrent-Programming-b8ecfb87a412491cfe61f8c1af1bfd54530cc306/
+ 1239  dir
+ 1240  cd HW2
+ 1241  dir
+ 1242  cd hw2_stub/
+ 1243  dir
+ 1244  javac Assignment2.java 
+ 1245  java Assignment2 
+ 1246  cd ../../
+ 1247  dir
+ 1248  cd ConcurrentProgramming-96d87bae347941bc922903f9c31273b71d09ec92/
+ 1249  dir
+ 1250  cd hw2/
+ 1251  dir
+ 1252  javac Assignment2.java 
+ 1253  java Assignment2 
+ 1254  javac Assignment2.java 
+ 1255  java Assignment2 
+ 1256  dir
+ 1257  javac Assignment2.java 
+ 1258  java Assignment2 
+ 1259  cd HW2
+ 1260  cd hw2_stub/
+ 1261  java Assignment2 
+ 1262  javac Customer.java 
+ 1263  java Assignment2 
+ 1264  dir
+ 1265  javac Assignment2.java 
+ 1266  java Assignment2 
+ 1267  dir
+ 1268  cd EB5/
+ 1269  dir
+ 1270  groovy ex3.groovy 
+ 1271  dir
+ 1272  groovy ex3.groovy
+ 1273  clear
+ 1274  groovy ex3.groovy
+ 1275  cd PLaF-main/
+ 1276  dir
+ 1277  cd PLaF-main/
+ 1278  cd src/arith/
+ 1279  dir
+ 1280  cd src/
+ 1281  dune clear
+ 1282  dune clean
+ 1283  dune build
+ 1284  dune
+ 1285  dune build
+ 1286  cd PLaF-main/
+ 1287  dir
+ 1288  opam install menhir
+ 1289  opam install ounit2
+ 1290  opam install dune
+ 1291  opam --version
+ 1292  git add lecture_Sep_28/
+ 1293  git commit -m "lecture Sep 28"
+ 1294  git add EB5/
+ 1295  git commit -m "EB5"
+ 1296  git add HW2/
+ 1297  git commit -m "HW2"
+ 1298  clear
+ 1299  groovy ex3.groovy
+ 1300  groovy ex3_2.groovy
+ 1301  dir
+ 1302  groovy ex3_2.groovy 
+ 1303  groovy ex3.groovy 
+ 1304  clear
+ 1305  ex7.groovy
+ 1306  groovy ex7.groovy
+ 1307  groovy ex1.groovy
+ 1308  groovy ex2.groovy
+ 1309  clear
+ 1310  groovy ex2.groovy
+ 1311  groovy ex6.groovy
+ 1312  groovy ex4.groovy 
+ 1313  clear
+ 1314  groovy ex4.groovy 
+ 1315  add-apt-repository ppa:avsm/ppa
+ 1316  sudo add-apt-repository ppa:avsm/ppa
+ 1317  add-apt-repository ppa:avsm/ppa
+ 1318  sudo add-apt-repository ppa:avsm/ppa
+ 1319  sudo apt-get install opam
+ 1320  opam --version
+ 1321  cd Graduate_Study/
+ 1322  dir
+ 1323  cd CS-510
+ 1324  cd PLaF-main/
+ 1325  cd arith
+ 1326  dor
+ 1327  dir
+ 1328  cd src/
+ 1329  dir
+ 1330  cd arith/src/
+ 1331  dir
+ 1332  dune utop
+ 1333  ls
+ 1334  cd ../
+ 1335  ls
+ 1336  dune utop
+ 1337  ls -l
+ 1338  ls -l*
+ 1339  ls -la
+ 1340  dune utop
+ 1341  cd .utop
+ 1342  ls
+ 1343  cd src/
+ 1344  ls
+ 1345  ls -la
+ 1346  cd .utop
+ 1347  clear
+ 1348  cd ../
+ 1349  cd call-by-reference/
+ 1350  cd src/
+ 1351  dune utop
+ 1352  cd ../../
+ 1353  ls -la
+ 1354  cd ../
+ 1355  ls -la
+ 1356  cat README
+ 1357  dune build
+ 1358  dune utop
+ 1359  dune build
+ 1360  dune utop
+ 1361  dune --version
+ 1362  opam --version
+ 1363  menhir --version
+ 1364  dune utop
+ 1365  menhir --version
+ 1366  ounit2 --version
+ 1367  opam install ounit2
+ 1368  ounit2 --version
+ 1369  dune --version
+ 1370  dune clean
+ 1371  dune utop
+ 1372  clean
+ 1373  clear
+ 1374  dune build
+ 1375  cd ../
+ 1376  dune utop
+ 1377  dir
+ 1378  dir
+ 1379  utop
+ 1380  clear
+ 1381  utop
+ 1382  cd PLaF
+ 1383  dir
+ 1384  cd src/
+ 1385  dir
+ 1386  cd arith/
+ 1387  dir
+ 1388  utop
+ 1389  cd src/
+ 1390  utop
+ 1391  dune build
+ 1392  dune utop
+ 1393  dir
+ 1394  cd Graduate_Study/
+ 1395  dir
+ 1396  cd CS-510
+ 1397  dir
+ 1398  git clone https://github.com/ebonelli/PLaF.git
+ 1399  dir
+ 1400  cd PLaF
+ 1401  dir
+ 1402  cd src/
+ 1403  dir
+ 1404  cd arith/
+ 1405  dune build
+ 1406  dune utop
+ 1407  dir
+ 1408  cd src/
+ 1409  dir
+ 1410  utop
+ 1411  dir
+ 1412  cd ../
+ 1413  dir
+ 1414  cd ../
+ 1415  dir
+ 1416  cd let/
+ 1417  dir
+ 1418  cd src/
+ 1419  dir
+ 1420  dune clean
+ 1421  dune build
+ 1422  dir
+ 1423  dune utop
+ 1424  which utop
+ 1425  vim .profile 
+ 1426  exit
+ 1427  which opam
+ 1428  which utop
+ 1429  exit
+ 1430  which utop
+ 1431  opam switch
+ 1432  eval $(opam env)
+ 1433  which utop
+ 1434  opam init
+ 1435  exit
+ 1436  utop
+ 1437  which utop
+ 1438  which dune
+ 1439  which opam
+ 1440  opam switch list
+ 1441  eval $(opam env)
+ 1442  which utop
+ 1443  which dune
+ 1444  cd Graduate_Study/CS-510/
+ 1445  ls
+ 1446  cd PLaF/src/arith/
+ 1447  ls
+ 1448  dune build
+ 1449  dune utop
+ 1450  clear
+ 1451  exit
+ 1452  cd PLaF
+ 1453  dur
+ 1454  dir
+ 1455  cd src/arith/src/
+ 1456  dune utop
+ 1457  cd ..
+ 1458  ls
+ 1459  dune build
+ 1460  dune utop
+ 1461  utop
+ 1462  p;
+ 1463  ls -a
+ 1464  cat .ocamlinit 
+ 1465  dune build
+ 1466  opam inti
+ 1467  opam init
+ 1468  dir
+ 1469  pwd
+ 1470  ls -a
+ 1471  echo $SHELL
+ 1472  vi .bashrc 
+ 1473  vi .profile 
+ 1474  cd EB5/
+ 1475  groovy ex4.groovy 
+ 1476  clear
+ 1477  groovy ex4.groovy 
+ 1478  clear
+ 1479  groovy ex4.groovy 
+ 1480  clear
+ 1481  groovy ex4.groovy 
+ 1482  clear
+ 1483  groovy ex4.groovy 
+ 1484  clear
+ 1485  groovy ex4.groovy 
+ 1486  clear
+ 1487  groovy ex4.groovy 
+ 1488  clear
+ 1489  groovy ex4.groovy 
+ 1490  clear
+ 1491  groovy ex4.groovy 
+ 1492  clear
+ 1493  groovy ex7.groovy 
+ 1494  clear
+ 1495  groovy ex7.groovy 
+ 1496  groovy ex6.groovy 
+ 1497  groovy ex7.groovy 
+ 1498  clear
+ 1499  groovy ex7.groovy 
+ 1500  clear
+ 1501  groovy ex7.groovy 
+ 1502  groovy ex7_.groovy 
+ 1503  groovy ex7_
+ 1504  clear
+ 1505  dir
+ 1506  cd ../
+ 1507  dir
+ 1508  cd EB5
+ 1509  dir
+ 1510  groovy ex7OG.groovy
+ 1511  git status
+ 1512  git add .
+ 1513  git commit -m "some comments"
+ 1514  which utop
+ 1515  cd src
+ 1516  cd PLaF
+ 1517  dir
+ 1518  cd src/
+ 1519  dir
+ 1520  cd arith/
+ 1521  dir
+ 1522  dune build
+ 1523  dune utop
+ 1524  dir
+ 1525  cd src/
+ 1526  dune utop
+ 1527  dir
+ 1528  cd ../
+ 1529  dune utop
+ 1530  which utop
+ 1531  ls
+ 1532  utop
+ 1533  cd _Assignments/
+ 1534  dir
+ 1535  cd HW2/
+ 1536  dir
+ 1537  utop
+ 1538  cd PLaF-main/src/
+ 1539  dir
+ 1540  cd let/
+ 1541  dir
+ 1542  dune build
+ 1543  dune utop
+ 1544  history > history_for_print.txt

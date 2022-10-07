@@ -49,6 +49,19 @@ let rec eval_expr : expr -> exp_val ea_result =
     eval_expr e >>=
     int_of_numVal >>= fun n ->
     return (BoolVal (n = 0))
+  | Record(fs) ->
+    if check_dup(List.map (fun (id,_) -> id) fs)
+    then error "Record has duplicate fields!"
+    else
+      mapM(fun (_, e) -> eval_expr e) fs >>= fun vs ->
+      return @@ RecordVal(List.map2(fun(id,_) v -> (id,v)) fs vs)
+
+  | Proj(e,id) ->
+    eval_expr e >>=
+    fields_of_recordVal >>= fun fs ->
+      (match List.assoc_opt id fs with
+      | None -> error "Field not found!"
+      | Some v -> return v)
   | Debug(_e) ->
     string_of_env >>= fun str ->
     print_endline str; 
