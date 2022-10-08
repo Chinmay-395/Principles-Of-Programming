@@ -57,7 +57,6 @@ let rec sequence l =
     sequence t >>= fun evs ->
     return (ev::evs)
 
-(* let rec recordHasDuplicateField l = if(List.mem h t) then true else false;; *)
 let rec mem : 'a -> 'a list -> bool =
   fun e l ->
   match l with
@@ -70,16 +69,7 @@ let rec has_duplicates : 'a list -> bool =
   | [] -> false
   | h::t -> mem h t || has_duplicates t
 
-let check_dup : string list -> bool = fun l ->
-  if (List.length(List.sort_uniq compare l) < List.length(l))
-  then true
-  else false
-
-(* let sequence (cs: ('a ea_result) list) : ('a list) ea_result  =
-  let mcons p q = p >>= fun x -> q >>= fun y -> return (x::y)
-  in List.fold_right mcons cs (return [])  *)
-
-let mapM (f:'a -> 'b ea_result) (vs:'a list) : ('b list) ea_result = sequence (List.map f vs)
+let maperFunc (f:'a -> 'b ea_result) (vs:'a list) : ('b list) ea_result = sequence (List.map f vs)
 (* Operations on environments *)
 
 let empty_env : unit -> env ea_result = fun () ->

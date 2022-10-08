@@ -50,11 +50,11 @@ let rec eval_expr : expr -> exp_val ea_result =
     int_of_numVal >>= fun n ->
     return (BoolVal (n = 0))
   | Record(fs) ->
-    if check_dup(List.map (fun (id,_) -> id) fs)
+    if has_duplicates(List.map (fun (id,_) -> id) fs)
     then error "Record has duplicate fields!"
     else
-      mapM(fun (_, e) -> eval_expr e) fs >>= fun vs ->
-      return @@ RecordVal(List.map2(fun(id,_) v -> (id,v)) fs vs)
+      maperFunc(fun (_, e) -> eval_expr e) fs >>= fun vs ->
+      return (RecordVal(List.map2(fun(id,_) v -> (id,v)) fs vs))
 
   | Proj(e,id) ->
     eval_expr e >>=
