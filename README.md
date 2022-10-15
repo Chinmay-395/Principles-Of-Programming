@@ -33,3 +33,38 @@ Semantics → is how we run code
 - Implementation
 
 using parse  in utop you can convert from conceret to abstract syntax
+
+
+# ARITH
+
+Grammar Notation
+
+```
+<Expression>::= <Number>
+<Expression>::= <Expression> − <Expression>
+<Expression>::= <Expression>/<Expression>
+<Expression>::= (<Expression>)
+```
+
+## Error Monad
+
+The infix operator (>>=) is called *bind* and is **left associative**.
+Consider the expression `c >>= f`; its behavior may be described as follows:
+1. evaluate the argument `c` to produce a result (i.e. a non-error value or an error value); if `c`
+returns an error, propagate it and conclude.
+2. otherwise, if `c` returns `Ok v`, for some expressed value `v`, then pass `v` on to `f` by evaluating
+`f v`.
+
+# Let
+
+```
+<Expression>::= <Number>
+<Expression>::= <Identifier>
+<Expression>::= <Expression><BOp><Expression>
+<Expression>::= zero?(<Expression>)
+<Expression>::= if<Expression> then <Expression> else <Expression>
+<Expression>::= let <Identifer> = <Expression> in <Expression>
+<Expression>::= (<Expression>)
+
+<BOp>::= + | - | * | /
+```
