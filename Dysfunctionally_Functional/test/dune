@@ -1,10 +1,8 @@
-
-
-
 (test
-(name test)
-(libraries ounit2 arith))
+ (name test)
+ (libraries ounit2 Dysfunctionally_Functional))
 
 (env
-  (dev
-(flags (:standard -warn-error -A))))
+ (dev
+  (flags
+   (:standard -warn-error -A))))

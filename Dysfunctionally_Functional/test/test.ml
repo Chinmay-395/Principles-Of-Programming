@@ -1,6 +1,6 @@
 open OUnit2
-open Arith.Ds
-open Arith.Interp
+open Dysfunctionally_Functional.Ds
+open Dysfunctionally_Functional.Interp
 
 (* A few test cases *)
 let tests = [
