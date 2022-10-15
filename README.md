@@ -1,4 +1,8 @@
-# Principles-Of-Programming
+# Name: Dysfunctionally Functional Language
+
+This is a compiler frontend writen in OCAML language 
+
+# Principles-Of-Programming CS-510
 
 You will need to install:
 * opam: the package manage for OCaml. Follow instructions here: https://opam.ocaml.org/doc/Install.html
