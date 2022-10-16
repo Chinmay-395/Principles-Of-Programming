@@ -2,31 +2,35 @@ open Ast
 open Ds
 
 (** [eval_expr e] evaluates expression [e] *)
-let rec eval_expr : expr -> int result =
-  fun e ->
+
+let rec eval_expr : expr -> env -> exp_val result =
+  fun e en ->
   match e with
-  | Int n      -> return n
+  | Int (n)     -> return ( NumVal n )
+  | Var(id) -> apply_env id en
   | Add(e1,e2) ->
-    eval_expr e1 >>= fun n ->
-    eval_expr e2 >>= fun m ->
-    return (n+m)   
+    eval_expr e1 en >>= 
+      int_of_numVal >>= fun n ->
+    eval_expr e2 en 
+      >>= int_of_numVal >>= fun m ->
+    return (NumVal (n+m))   
   | Sub(e1,e2) ->
-    eval_expr e1 >>= fun n ->
-    eval_expr e2 >>= fun m ->
-    return (n-m)   
+    eval_expr e1 en >>= int_of_numVal >>= fun n ->
+    eval_expr e2 en >>= int_of_numVal >>= fun m ->
+    return (NumVal(n-m))   
   | Mul(e1,e2) ->
-    eval_expr e1 >>= fun n ->
-    eval_expr e2 >>= fun m ->
-    return (n*m)   
+    eval_expr e1 en >>= int_of_numVal >>= fun n ->
+    eval_expr e2 en >>= int_of_numVal >>= fun m ->
+    return (NumVal(n*m))   
   | Div(e1,e2) ->
-    eval_expr e1 >>= fun n ->
-    eval_expr e2 >>= fun m ->
-    if m=0
+    eval_expr e1 en >>= int_of_numVal >>= fun n ->
+    eval_expr e2 en >>= int_of_numVal >>= fun m ->
+    if m==0
     then error "Division by zero"
-    else return (n/m)
+    else return (NumVal (n/m))
   | Abs(e) ->
-    eval_expr e >>= fun n ->
-    return (abs n)
+    eval_expr e en >>= int_of_numVal >>= fun n ->
+    return (NumVal(abs n))
   | _ -> failwith "Not implemented yet!"
 
 
@@ -38,8 +42,9 @@ let parse (s:string) : expr =
 
 
 (** [interp s] parses [s] and then evaluates it *)
-let interp (e:string) : int result =
-  e |> parse |> eval_expr
+let interp (e:string) : exp_val result =
+  let c = e |> parse |> eval_expr
+  in c EmptyEnv
 
 
 
