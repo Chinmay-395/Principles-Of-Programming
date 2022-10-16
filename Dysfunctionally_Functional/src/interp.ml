@@ -31,6 +31,15 @@ let rec eval_expr : expr -> env -> exp_val result =
   | Abs(e) ->
     eval_expr e en >>= int_of_numVal >>= fun n ->
     return (NumVal(abs n))
+  | IsZero(e) ->
+      eval_expr e en >>=
+      int_of_numVal >>= fun n ->
+      return ( BoolVal ( n = 0))
+  | ITE(e1,e2,e3) ->
+    eval_expr e1 en >>= bool_of_boolVal >>= fun n ->
+      if n 
+      then eval_expr e2 en 
+      else eval_expr e3 en
   | _ -> failwith "Not implemented yet!"
 
 

@@ -44,4 +44,10 @@ let int_of_numVal : exp_val -> int result =
 fun ev ->
 match ev with
 | NumVal n -> return n
-| _ -> error " Expected a number ! "
+| _ -> error " Expected a number!"
+
+let bool_of_boolVal: exp_val -> bool result =
+fun ev ->
+  match ev with
+  | BoolVal n -> return n
+  | _ -> error " Expected a bool!"
