@@ -61,9 +61,23 @@ WHAT I LEARNED:
 
 * `type` in OCAML is mutually recurssive therefore we use "and" (code ref: ast.ml in Proc `type exp_val`)
 
-
 ------------------------------------------------
+
+
+**implemented Let**
+------------------------------------------------
+```bash
+─( 14:19:47 )─< command 0 >──────────────────────────────────────{ counter: 0 }─
+utop # interp "
+let x =2
+in let y =3
+in x + y " ;;
+- : exp_val Dysfunctionally_Functional.Ds.result = Ok (NumVal 5)
+```
+------------------------------------------------
+
 # Doubt
+
 
 **Please explain again**
 
