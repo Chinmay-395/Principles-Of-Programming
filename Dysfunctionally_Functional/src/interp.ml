@@ -40,6 +40,9 @@ let rec eval_expr : expr -> env -> exp_val result =
       if n 
       then eval_expr e2 en 
       else eval_expr e3 en
+  | Let(id,def,body) ->
+    eval_expr def  en >>= fun ev ->
+    eval_expr body (extend_env en id ev)
   | _ -> failwith "Not implemented yet!"
 
 
