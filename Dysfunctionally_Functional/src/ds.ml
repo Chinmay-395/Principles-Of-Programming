@@ -34,17 +34,17 @@ let (>>+) : env ea_result -> 'a ea_result -> 'a ea_result =
       | Error err -> Error err
       | Ok newenv -> d newenv
 
-let run: 'a ea_result -> 'a result =
+let run : 'a ea_result -> 'a result =
       fun c -> c EmptyEnv
 
-  let empty_env: unit -> env =
-  fun () -> EmptyEnv
+  let empty_env : unit -> env ea_result =
+  fun () -> return EmptyEnv
 
-let extend_env: string -> exp_val -> env ea_result =
+let extend_env : string -> exp_val -> env ea_result =
   fun id v ->
     fun env -> Ok (ExtendEnv(id,v,env))
 
-let rec apply_env: string -> exp_val ea_result =
+let rec apply_env : string -> exp_val ea_result =
   fun id env -> 
     match env with
     | EmptyEnv -> Error (id^" not found!")
@@ -59,8 +59,20 @@ match ev with
 | NumVal n -> return n
 | _ -> error " Expected a number!"
 
-let bool_of_boolVal: exp_val -> bool ea_result =
+let bool_of_boolVal : exp_val -> bool ea_result =
 fun ev ->
   match ev with
   | BoolVal n -> return n
   | _ -> error " Expected a bool!"
+
+let string_of_expval = function
+  | NumVal n -> " NumVal " ^ string_of_int n
+  | BoolVal b -> " BoolVal " ^ string_of_bool b
+let rec string_of_env' ac = function
+  | EmptyEnv -> ac
+  | ExtendEnv (id,v,env ) -> string_of_env'(( id ^ " := " ^ string_of_expval v ) :: ac) env
+let string_of_env : string ea_result =
+  fun env ->
+  match env with
+  | EmptyEnv -> Ok " >> Environment : \ nEmpty "
+  | _ -> Ok ( " >> Environment : \ n " ^ String . concat " ,\ n " ( string_of_env' [] env ))

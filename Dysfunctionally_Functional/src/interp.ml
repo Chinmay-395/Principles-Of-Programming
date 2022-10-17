@@ -40,10 +40,14 @@ let rec eval_expr : expr -> exp_val ea_result =
       if n 
       then eval_expr e2  
       else eval_expr e3 
-  | Let ( id , def , body ) ->
+  | Let(id,def,body) ->
       eval_expr def >>=
       extend_env id >>+
       eval_expr body
+  | Debug(e) ->
+      string_of_env >>= fun str ->
+      print_endline str ;
+      error " Debug called "
   | _ -> failwith "Not implemented yet!"
 
 
