@@ -52,6 +52,7 @@ rule read =
   | ">"      { RANGLE }
   | ";"      { SEMICOLON }      
   | ","      { COMMA }
+  | "abs"    { ABS }
   | "."      { DOT }
   | "let"    { LET }
   | "="      { EQUALS }

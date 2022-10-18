@@ -28,9 +28,9 @@ let rec eval_expr : expr -> exp_val ea_result =
     if m==0
     then error "Division by zero"
     else return (NumVal (n/m))
-  (* | Abs(e) ->
+  | Abs(e) ->
     eval_expr e  >>= int_of_numVal >>= fun n ->
-    return (NumVal(abs n)) *)
+    return (NumVal(abs n))
   | IsZero(e) ->
       eval_expr e  >>=
       int_of_numVal >>= fun n ->
@@ -44,10 +44,10 @@ let rec eval_expr : expr -> exp_val ea_result =
       eval_expr def >>=
       extend_env id >>+
       eval_expr body
-  (* | Debug(e) ->
+  | Debug(e) ->
       string_of_env >>= fun str ->
       print_endline str;
-      error " Debug called " *)
+      error " Debug called "
   (* | Pair(e1,e2) ->
     eval_expr e1 >>= fun ev1 ->
       eval_expr e2 >>= fun ev2 ->

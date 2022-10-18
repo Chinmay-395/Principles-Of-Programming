@@ -27,6 +27,7 @@ open Ast
 %token DIVIDED
 %token LPAREN
 %token RPAREN
+%token ABS
 %token LBRACE
 %token RBRACE
 %token LANGLE
@@ -151,6 +152,7 @@ expr:
     | e1 = expr; MINUS; e2 = expr { Sub(e1,e2) }
     | e1 = expr; TIMES; e2 = expr { Mul(e1,e2) }
     | e1 = expr; DIVIDED; e2 = expr { Div(e1,e2) }
+    | ABS; LPAREN; e=expr; RPAREN { Abs(e) }
     | PAIR; LPAREN; e1=expr; COMMA; e2=expr; RPAREN { Pair(e1,e2) }
     | FST; LPAREN; e=expr; RPAREN { Fst(e) }
     | SND; LPAREN; e=expr; RPAREN { Snd(e) }

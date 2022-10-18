@@ -22,18 +22,21 @@ type expr =
   | Pair of expr*expr
   | Fst of expr
   | Snd of expr
+  | Not of expr
+  | Abs of expr
   | Unpair of string*string*expr*expr
   | Tuple of expr list
   | Untuple of string list * expr*expr
   | Record of (string*expr) list
   | Proj of expr*string
   | Max of expr*expr
-  | Not of expr
+  
 
 let rec string_of_expr e =
   match e with
   | Var s -> "Var "^s
   | Int n -> "Int "^string_of_int n
+  | Abs e -> "Abs "^string_of_expr e
   | Add(e1,e2) -> "Add(" ^ (string_of_expr e1) ^ "," ^ string_of_expr e2 ^ ")"
   | Sub(e1,e2) -> "Sub(" ^ (string_of_expr e1) ^ "," ^ string_of_expr e2 ^ ")"
   | Mul(e1,e2) -> "Mul(" ^ (string_of_expr e1) ^ "," ^ string_of_expr e2 ^ ")"
