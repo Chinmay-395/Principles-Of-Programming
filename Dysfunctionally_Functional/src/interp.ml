@@ -48,10 +48,10 @@ let rec eval_expr : expr -> exp_val ea_result =
       string_of_env >>= fun str ->
       print_endline str;
       error " Debug called "
-  (* | Pair(e1,e2) ->
+  | Pair(e1,e2) ->
     eval_expr e1 >>= fun ev1 ->
       eval_expr e2 >>= fun ev2 ->
-        return (PairVal(ev1,ev2)) *)
+        return (PairVal(ev1,ev2))
   | Tuple(es) ->
     sequence (List.map eval_expr es) >>= fun evs ->
     return (TupleVal evs)

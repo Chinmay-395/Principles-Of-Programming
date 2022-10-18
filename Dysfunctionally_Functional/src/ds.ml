@@ -1,7 +1,7 @@
 type exp_val =
   | NumVal of int
   | BoolVal of bool
-  (* | PairVal of exp_val*exp_val *)
+  | PairVal of exp_val*exp_val
   | TupleVal of exp_val list
   (* | RecordVal of ( string * exp_val ) list  *)
 
@@ -105,11 +105,11 @@ let list_of_tupleVal : exp_val -> (exp_val list)  ea_result =  function
   |  TupleVal l -> return l
   | _ -> error "Expected a tuple!"
            
-(* let pair_of_pairVal : exp_val -> (exp_val*exp_val) ea_result =  function
+ let pair_of_pairVal : exp_val -> (exp_val*exp_val) ea_result =  function
   |  PairVal(ev1,ev2) -> return (ev1,ev2)
   | _ -> error "Expected a pair!"
 
-let fields_of_recordVal : exp_val -> ((string*exp_val) list) ea_result = function
+(*let fields_of_recordVal : exp_val -> ((string*exp_val) list) ea_result = function
   | RecordVal(fs) -> return fs
   | _ -> error "Expected a record!" *)
 
@@ -130,8 +130,8 @@ let extend_env_list =
 let rec string_of_expval = function
   | NumVal n -> " NumVal " ^ string_of_int n
   | BoolVal b -> " BoolVal " ^ string_of_bool b
-  (* | PairVal (ev1,ev2) -> "PairVal "^string_of_expval ev1
-                         ^","^ string_of_expval ev2 *)
+  | PairVal (ev1,ev2) -> "PairVal "^string_of_expval ev1
+                         ^","^ string_of_expval ev2
   | TupleVal(evs) ->  "Tuple (" ^ string_of_list_of_strings (List.map
                                                    string_of_expval
                                                    evs)  ^ ")" 
