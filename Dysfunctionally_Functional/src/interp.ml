@@ -28,9 +28,9 @@ let rec eval_expr : expr -> exp_val ea_result =
     if m==0
     then error "Division by zero"
     else return (NumVal (n/m))
-  | Abs(e) ->
+  (* | Abs(e) ->
     eval_expr e  >>= int_of_numVal >>= fun n ->
-    return (NumVal(abs n))
+    return (NumVal(abs n)) *)
   | IsZero(e) ->
       eval_expr e  >>=
       int_of_numVal >>= fun n ->
@@ -44,10 +44,40 @@ let rec eval_expr : expr -> exp_val ea_result =
       eval_expr def >>=
       extend_env id >>+
       eval_expr body
-  | Debug(e) ->
+  (* | Debug(e) ->
       string_of_env >>= fun str ->
-      print_endline str ;
-      error " Debug called "
+      print_endline str;
+      error " Debug called " *)
+  (* | Pair(e1,e2) ->
+    eval_expr e1 >>= fun ev1 ->
+      eval_expr e2 >>= fun ev2 ->
+        return (PairVal(ev1,ev2)) *)
+  | Tuple(es) ->
+    sequence (List.map eval_expr es) >>= fun evs ->
+    return (TupleVal evs)
+  (* | Untuple(ids,e1,e2) ->
+    eval_expr e1 >>=
+    list_of_tupleVal >>= fun evs ->
+    if List.length ids<>List.length evs
+         then error "untuple: mismatch"
+         else extend_env_list ids evs >>+
+           eval_expr e2
+  | Record(fs) ->
+    let keys, values = List.split fs in
+    if has_duplicates keys then error "Invalid record"
+    else sequence (List.map eval_expr values) >>= fun evalues ->
+      return (RecordVal(List.combine keys evalues)) *)
+    (* let keys, values = List.split fs in
+    if has_duplicates keys then error "Invalid record"
+    else
+      sequence (List.map eval_expr values) >>= fun evalues ->
+      return (RecordVal (List.combine keys evalues)) *)
+  (* | Proj(e,id) ->
+    eval_expr e >>=
+    fields_of_recordVal >>= fun fs ->
+      (match List.assoc_opt id fs with
+      | None -> error "Field not found!"
+      | Some v -> return v) *)
   | _ -> failwith "Not implemented yet!"
 
 

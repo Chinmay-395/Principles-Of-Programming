@@ -1,6 +1,9 @@
 type exp_val =
   | NumVal of int
   | BoolVal of bool
+  (* | PairVal of exp_val*exp_val *)
+  | TupleVal of exp_val list
+  (* | RecordVal of ( string * exp_val ) list  *)
 
 type env =
   | EmptyEnv
@@ -37,7 +40,33 @@ let (>>+) : env ea_result -> 'a ea_result -> 'a ea_result =
 let run : 'a ea_result -> 'a result =
       fun c -> c EmptyEnv
 
-  let empty_env : unit -> env ea_result =
+let lookup : env ea_result = fun env ->
+  Ok env
+
+let rec sequence l =
+  match l with
+  | [] -> return []
+  | h::t ->
+    h >>= fun ev ->
+    sequence t >>= fun evs ->
+    return (ev::evs)
+
+let rec mem : 'a -> 'a list -> bool =
+  fun e l ->
+  match l with
+  | [] -> false
+  | h::t -> (e=h) || mem e t
+              
+let rec has_duplicates : 'a list -> bool =
+  fun l ->
+  match l with
+  | [] -> false
+  | h::t -> mem h t || has_duplicates t
+
+let maperFunc (f:'a -> 'b ea_result) (vs:'a list) : ('b list) ea_result = sequence (List.map f vs)
+(* Operations on environments *)
+
+let empty_env : unit -> env ea_result =
   fun () -> return EmptyEnv
 
 let extend_env : string -> exp_val -> env ea_result =
@@ -53,6 +82,13 @@ let rec apply_env : string -> exp_val ea_result =
       then Ok ev
       else apply_env id tail
 
+let rec string_of_list_of_strings = function
+  | [] -> ""
+  | [id] -> id
+  | id::ids -> id ^ "," ^ string_of_list_of_strings ids
+
+
+(* operations on expressed values *)
 let int_of_numVal : exp_val -> int ea_result =
 fun ev ->
 match ev with
@@ -65,9 +101,43 @@ fun ev ->
   | BoolVal n -> return n
   | _ -> error " Expected a bool!"
 
-let string_of_expval = function
+let list_of_tupleVal : exp_val -> (exp_val list)  ea_result =  function
+  |  TupleVal l -> return l
+  | _ -> error "Expected a tuple!"
+           
+(* let pair_of_pairVal : exp_val -> (exp_val*exp_val) ea_result =  function
+  |  PairVal(ev1,ev2) -> return (ev1,ev2)
+  | _ -> error "Expected a pair!"
+
+let fields_of_recordVal : exp_val -> ((string*exp_val) list) ea_result = function
+  | RecordVal(fs) -> return fs
+  | _ -> error "Expected a record!" *)
+
+let rec extend_env_list_helper =
+  fun ids evs en ->
+  match ids,evs with
+  | [],[] -> en
+  | id::idt,ev::evt ->
+    ExtendEnv(id,ev,extend_env_list_helper idt evt en)
+  | _,_ -> failwith
+             "extend_env_list_helper: ids and evs have different sizes"
+  
+let extend_env_list =
+  fun ids evs ->
+  fun en ->
+  Ok (extend_env_list_helper ids evs en)
+
+let rec string_of_expval = function
   | NumVal n -> " NumVal " ^ string_of_int n
   | BoolVal b -> " BoolVal " ^ string_of_bool b
+  (* | PairVal (ev1,ev2) -> "PairVal "^string_of_expval ev1
+                         ^","^ string_of_expval ev2 *)
+  | TupleVal(evs) ->  "Tuple (" ^ string_of_list_of_strings (List.map
+                                                   string_of_expval
+                                                   evs)  ^ ")" 
+  (* |RecordVal(fs) -> "RecordVal("^ String.concat "," 
+      (List.map (fun (n,ev) ->
+      n^"="^string_of_expval ev) fs) ^")" *)
 let rec string_of_env' ac = function
   | EmptyEnv -> ac
   | ExtendEnv (id,v,env ) -> string_of_env'(( id ^ " := " ^ string_of_expval v ) :: ac) env

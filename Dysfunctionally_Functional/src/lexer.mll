@@ -5,6 +5,8 @@
 {
 open Parser
 
+exception Error of string
+
 }
 
 (* The second section of the lexer definition defines *identifiers*
@@ -46,9 +48,11 @@ rule read =
   | ")"      { RPAREN }
   | "{"      { LBRACE }
   | "}"      { RBRACE }
-  | ";"      { SEMICOLON }
+  | "<"      { LANGLE }
+  | ">"      { RANGLE }
+  | ";"      { SEMICOLON }      
   | ","      { COMMA }
-  | "abs"    { ABS }
+  | "."      { DOT }
   | "let"    { LET }
   | "="      { EQUALS }
   | "in"     { IN }
@@ -68,9 +72,21 @@ rule read =
   | "pair"   { PAIR }
   | "fst"    { FST }
   | "snd"    { SND }
+  | "unpair"    { UNPAIR }
+  | "untuple" { UNTUPLE }
   | "not"    { NOT }
+  | "max"    { MAX }
+  | "(*"     { comment lexbuf } (* activate "comment" rule *)
   | id       { ID (Lexing.lexeme lexbuf) }
   | int      { INT (int_of_string (Lexing.lexeme lexbuf)) }
   | eof      { EOF }
+  | _
+      { raise (Error (Printf.sprintf
+                        "At offset %d: unexpected character."
+                        (Lexing.lexeme_start lexbuf))) }
+and
+  comment = parse
+  | "*)" { read lexbuf }
+  | _    { comment lexbuf }  (* skip comments *)
 
-(* And that's the end of the lexer definition. *)
+
