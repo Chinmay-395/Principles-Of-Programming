@@ -62,22 +62,22 @@ let rec eval_expr : expr -> exp_val ea_result =
          then error "untuple: mismatch"
          else extend_env_list ids evs >>+
            eval_expr e2
-  (*| Record(fs) ->
-    let keys, values = List.split fs in
+  | Record(fs) ->
+    (* let keys, values = List.split fs in
     if has_duplicates keys then error "Invalid record"
     else sequence (List.map eval_expr values) >>= fun evalues ->
-      return (RecordVal(List.combine keys evalues)) *)
-    (* let keys, values = List.split fs in
+      return (RecordVal(List.combine keys evalues))  *)
+    let keys, values = List.split fs in
     if has_duplicates keys then error "Invalid record"
     else
       sequence (List.map eval_expr values) >>= fun evalues ->
-      return (RecordVal (List.combine keys evalues)) *)
-  (* | Proj(e,id) ->
+      return (RecordVal (List.combine keys evalues))
+  | Proj(e,id) ->
     eval_expr e >>=
     fields_of_recordVal >>= fun fs ->
       (match List.assoc_opt id fs with
       | None -> error "Field not found!"
-      | Some v -> return v) *)
+      | Some v -> return v) 
   | _ -> failwith "Not implemented yet!"
 
 
