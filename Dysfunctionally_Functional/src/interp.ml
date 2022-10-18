@@ -52,6 +52,14 @@ let rec eval_expr : expr -> exp_val ea_result =
     eval_expr e1 >>= fun ev1 ->
       eval_expr e2 >>= fun ev2 ->
         return (PairVal(ev1,ev2))
+  | Fst(e) ->
+    eval_expr e >>=
+    pair_of_pairVal >>= fun p ->
+    return (fst p) 
+  | Snd(e) ->
+    eval_expr e >>=
+    pair_of_pairVal >>= fun p ->
+    return (snd p)
   | Tuple(es) ->
     sequence (List.map eval_expr es) >>= fun evs ->
     return (TupleVal evs)
@@ -63,10 +71,13 @@ let rec eval_expr : expr -> exp_val ea_result =
          else extend_env_list ids evs >>+
            eval_expr e2
   | Record(fs) ->
-    (* let keys, values = List.split fs in
-    if has_duplicates keys then error "Invalid record"
-    else sequence (List.map eval_expr values) >>= fun evalues ->
-      return (RecordVal(List.combine keys evalues))  *)
+    (* ----------- My implementation -----------
+    let keys, values = List.split fs in
+      if has_duplicates keys then error "Invalid record"
+      else sequence (List.map eval_expr values) >>= fun evalues ->
+        return (RecordVal(List.combine keys evalues))  
+    ----------- My implementation -----------
+    *)
     let keys, values = List.split fs in
     if has_duplicates keys then error "Invalid record"
     else
