@@ -4,8 +4,9 @@ type exp_val =
   | PairVal of exp_val*exp_val
   | TupleVal of exp_val list
   | RecordVal of ( string * exp_val ) list 
-
-type env =
+  | ProcVal of string*Ast.expr*env
+and
+ env =
   | EmptyEnv
   | ExtendEnv of string * exp_val * env
 
@@ -15,30 +16,26 @@ type 'a result = Ok of 'a | Error of string
 (* Environment Abstracted Result *)
 type 'a ea_result = env -> 'a result
 
-let return : 'a -> 'a ea_result =
-  fun v ->
+let return (v:'a): 'a ea_result =
   fun env -> Ok v
 
-let error : string -> 'a ea_result =
-  fun s ->
+let error (s:string) : 'a ea_result =
   fun env -> Error s
 
-let (>>=) : 'a ea_result -> ('a -> 'b ea_result) -> 'b ea_result =
-  fun c f ->
-    fun env ->
-      match c env with
-      | Error err -> Error err
-      | Ok v -> f v env
+let (>>=) (c:'a ea_result) (f: 'a -> 'b ea_result) : 'b ea_result =
+  fun env ->
+  match c env with
+  | Error err -> Error err
+  | Ok v -> f v env
 
-let (>>+) : env ea_result -> 'a ea_result -> 'a ea_result =
-  fun c d ->
-    fun env ->
-      match c env with
-      | Error err -> Error err
-      | Ok newenv -> d newenv
+let (>>+) (c:env ea_result) (d:'a ea_result): 'a ea_result =
+  fun env ->
+  match c env with
+  | Error err -> Error err
+  | Ok newenv -> d newenv
 
-let run : 'a ea_result -> 'a result =
-      fun c -> c EmptyEnv
+let run (c:'a ea_result) : 'a result =
+  c EmptyEnv
 
 let lookup : env ea_result = fun env ->
   Ok env
@@ -127,6 +124,15 @@ let extend_env_list =
   fun en ->
   Ok (extend_env_list_helper ids evs en)
 
+let lookup_env : env ea_result =
+  fun env ->
+  Ok env
+let clos_of_procVal : exp_val -> (string*Ast.expr*env) ea_result =
+  fun ev ->
+  match ev with
+  | ProcVal(id,body,en) -> return (id,body,en)
+  | _ -> error "Expected a closure!"
+
 let rec string_of_expval = function
   | NumVal n -> " NumVal " ^ string_of_int n
   | BoolVal b -> " BoolVal " ^ string_of_bool b
@@ -138,7 +144,10 @@ let rec string_of_expval = function
   |RecordVal(fs) -> "RecordVal("^ String.concat "," 
       (List.map (fun (n,ev) ->
       n^"="^string_of_expval ev) fs) ^")"
-let rec string_of_env' ac = function
+  | ProcVal (id,body,env) -> "ProcVal ("^ id ^","^Ast.string_of_expr
+                               body^","^ String.concat ",\n" (string_of_env' [] env)^")"
+and 
+  string_of_env' ac = function
   | EmptyEnv -> ac
   | ExtendEnv (id,v,env ) -> string_of_env'(( id ^ " := " ^ string_of_expval v ) :: ac) env
 let string_of_env : string ea_result =

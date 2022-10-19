@@ -1,9 +1,15 @@
 open Ast
 open Ds
-
+open Printf
 (** [eval_expr e] evaluates expression [e] *)
 
-let rec eval_expr : expr -> exp_val ea_result =
+let rec apply_clos : string*Ast.expr*env -> exp_val -> exp_val ea_result =
+  fun (id,e,en) ev ->
+  return en >>+
+  extend_env id ev >>+
+  eval_expr e
+and 
+  eval_expr : expr -> exp_val ea_result =
   fun e  ->
   match e with
   | Int (n) -> return ( NumVal n )
@@ -60,16 +66,22 @@ let rec eval_expr : expr -> exp_val ea_result =
     eval_expr e >>=
     pair_of_pairVal >>= fun p ->
     return (snd p)
+  | Unpair(id1,id2,e1,e2) ->
+    eval_expr e1 >>= pair_of_pairVal >>= fun (x,y) ->
+      extend_env id1 x >>+
+      extend_env id2 y >>+
+      eval_expr e2
   | Tuple(es) ->
     sequence (List.map eval_expr es) >>= fun evs ->
     return (TupleVal evs)
-   | Untuple(ids,e1,e2) ->
+   | Untuple(ids,e1,e2) -> 
     eval_expr e1 >>=
     list_of_tupleVal >>= fun evs ->
+      List.iter (printf "%s ") ids;
     if List.length ids<>List.length evs
-         then error "untuple: mismatch"
-         else extend_env_list ids evs >>+
-           eval_expr e2
+      then error "untuple: mismatch"
+    else extend_env_list ids evs >>+
+      eval_expr e2
   | Record(fs) ->
     (* ----------- My implementation -----------
     let keys, values = List.split fs in
@@ -89,6 +101,24 @@ let rec eval_expr : expr -> exp_val ea_result =
       (match List.assoc_opt id fs with
       | None -> error "Field not found!"
       | Some v -> return v) 
+
+  | Proc(id,e)  ->
+    lookup_env >>= fun en ->
+    return (ProcVal(id,e,en))
+  | App(e1,e2)  -> 
+    eval_expr e1 >>= 
+    clos_of_procVal >>= fun clos ->
+    eval_expr e2 >>= 
+    apply_clos clos 
+  (* | Even(e) ->
+    eval_expr e  >>= 
+      int_of_numVal >>= fun n ->
+        if n==0 then return (BoolVal (true)) else Odd(NumVal(n-1))
+  | Odd(e) ->
+    eval_expr e  >>= 
+      int_of_numVal >>= fun n ->
+        if n==0 then return (BoolVal (false)) else Even(NumVal(n-1)) *)
+
   | _ -> failwith "Not implemented yet!"
 
 
