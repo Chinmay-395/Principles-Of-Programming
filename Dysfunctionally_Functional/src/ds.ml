@@ -18,10 +18,10 @@ type 'a result = Ok of 'a | Error of string
 type 'a ea_result = env -> 'a result
 
 let return (v:'a): 'a ea_result =
-  fun env -> Ok v
+  fun _env -> Ok v
 
 let error (s:string) : 'a ea_result =
-  fun env -> Error s
+  fun _env -> Error s
 
 let (>>=) (c:'a ea_result) (f: 'a -> 'b ea_result) : 'b ea_result =
   fun env ->
