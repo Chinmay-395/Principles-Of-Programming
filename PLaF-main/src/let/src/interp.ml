@@ -50,11 +50,18 @@ let rec eval_expr : expr -> exp_val ea_result =
     int_of_numVal >>= fun n ->
     return (BoolVal (n = 0))
   | Record(fs) ->
-    if has_duplicates(List.map (fun (id,_) -> id) fs)
-    then error "Record has duplicate fields!"
+    let keys, values = List.split fs in
+    if has_duplicates keys then error "Invalid record"
     else
-      maperFunc(fun (_, e) -> eval_expr e) fs >>= fun vs ->
-      return (RecordVal(List.map2(fun(id,_) v -> (id,v)) fs vs))
+      sequence (List.map eval_expr values) >>= fun evalues ->
+      return (RecordVal (List.combine keys evalues))
+  
+    (* fs -- (string * exp_val) list *)
+    (* let keys, values = List.split fs in
+    if has_duplicates keys then error "Invalid record"
+    else
+      sequence (List.map eval_expr values) >>= fun evalues ->
+      return (RecordVal (List.combine keys evalues)) *)
 
   | Proj(e,id) ->
     eval_expr e >>=
@@ -62,6 +69,16 @@ let rec eval_expr : expr -> exp_val ea_result =
       (match List.assoc_opt id fs with
       | None -> error "Field not found!"
       | Some v -> return v)
+  | Tuple(es) ->
+    sequence (List.map eval_expr es) >>= fun evs ->
+    return (TupleVal evs)
+  | Untuple(ids,e1,e2) ->
+    eval_expr e1 >>=
+    list_of_tupleVal >>= fun evs ->
+    if List.length ids<>List.length evs
+         then error "untuple: mismatch"
+         else extend_env_list ids evs >>+
+           eval_expr e2
   | Debug(_e) ->
     string_of_env >>= fun str ->
     print_endline str; 

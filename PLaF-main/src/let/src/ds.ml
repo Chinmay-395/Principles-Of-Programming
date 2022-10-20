@@ -16,9 +16,9 @@ type env =
 
 (* Environment Abstracted Result *)
 
-type 'a result = Ok of 'a | Error of string
+type 'a result = Ok of 'a | Error of string (* f:env -> int result *)
 
-type 'a ea_result = env -> 'a result
+type 'a ea_result = env -> 'a result 
   
 let return : 'a -> 'a ea_result =
   fun v ->
