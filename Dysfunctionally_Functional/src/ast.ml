@@ -32,6 +32,14 @@ type expr =
   | Record of (string*expr) list
   | Proj of expr*string
   | Max of expr*expr
+  | Cons of expr*expr
+  | Hd of expr
+  | Tl of expr
+  | Empty of expr
+  | EmptyList
+  | EmptyTree
+  | Node of expr*expr*expr
+  | CaseT of expr*expr*string*string*string*expr
   
 
 let rec string_of_expr e =
@@ -68,4 +76,17 @@ let rec string_of_expr e =
   | Record(fs) -> "{"^String.concat "," (List.map (fun (id,e) ->
   id^"="^string_of_expr e) fs) ^"}"
   | Proj(e,id) -> string_of_expr e ^"."^id
+  | Cons(e1,e2) -> "Cons(" ^ (string_of_expr e1) ^ "," ^ string_of_expr e2 ^ ")"
+  | Hd(e1) -> "Hd("^string_of_expr e1 ^")"
+  | Tl(e1) -> "Tl("^string_of_expr e1 ^")"
+  | Empty(e1) -> "Empty("^string_of_expr e1 ^")"
+  | EmptyList -> "EmptyList"
+  | EmptyTree -> "EmptyTree"
+  | Node(e1,e2,e3) -> "Node("^string_of_expr e1^"," ^ string_of_expr
+                        e2^"," ^ string_of_expr e3  ^")"
+  |  CaseT(e1,e_empty,did,lid,rid,e_node) -> "CaseT "^string_of_expr e1^" of
+  \n { emptytree -> "^string_of_expr e_empty^",\n"^
+                                             "node("^did^","^lid^","^rid
+                                             ^") -> "^string_of_expr
+                                               e_node^"} "
 

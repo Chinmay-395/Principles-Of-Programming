@@ -3,9 +3,13 @@ open Ds
 open Printf
 (** [eval_expr e] evaluates expression [e] *)
 
+(* apply_clos ==> applying closure
+The function apply_clos sets en to be the new current environment and then extends it with the
+assignment of id to ev. Under this extended environment, it proceeds with the evaluation of the
+body of the closure, namely e. *)
 let rec apply_clos : string*Ast.expr*env -> exp_val -> exp_val ea_result =
   fun (id,e,en) ev ->
-  return en >>+
+  (* return en >>+ *)
   extend_env id ev >>+
   eval_expr e
 and 
@@ -114,7 +118,20 @@ and
       string_of_env >>= fun str ->
       print_endline str;
       error " Debug called "
+  | Cons(e1, e2) -> failwith "implement me"
+  | Hd(e1) ->  failwith "implement me"
+  | Tl(e1) ->  failwith "implement me"
+  | Empty(e1)  ->  eval_expr e1 >>=
+        fun v1 -> if (isTreeVal v1) 
+                      then  tree_of_TreeVal v1 >>= fun v3 -> return (BoolVal (v3 == Empty) )
+                  else if(isList v1) 
+                    then list_of_ListVal v1 >>= fun v3 -> return (BoolVal (v3 == [] ))
+                  else error "Niether Tree nor List"
 
+  | EmptyList    ->  return (ListVal [] )
+  | EmptyTree ->  return (TreeVal(Empty))
+  | Node(e1,lte,rte) ->  failwith "implement me"
+  | CaseT(target,emptycase,id1,id2,id3,nodecase) ->  failwith "implement me"
   | _ -> failwith "Not implemented yet!"
 
 

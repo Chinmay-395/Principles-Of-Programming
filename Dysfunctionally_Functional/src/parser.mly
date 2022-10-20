@@ -59,6 +59,16 @@ open Ast
 %token MAX
 %token DEBUG
 %token EOF
+%token EMPTYLIST
+%token CONS
+%token HD
+%token TL
+%token EMPTY
+%token EMPTYTREE 
+%token NODE 
+%token OF
+%token CASET 
+%token ARROW
 
 (* After declaring the tokens, we have to provide some additional information
    about precedence and associativity.  The following declarations say that
@@ -177,6 +187,16 @@ expr:
     | UNTUPLE; LANGLE; is = ids ;RANGLE; EQUALS; e1 = expr; IN;
       e2 = expr { Untuple(is,e1,e2) }
     | LBRACE; fs = separated_list(SEMICOLON, field); RBRACE { Record(fs) }
+    | EMPTYLIST { EmptyList }
+    | HD; LPAREN; e = expr; RPAREN { Hd(e) }
+    | TL; LPAREN; e = expr; RPAREN { Tl(e) }
+    | EMPTY; LPAREN; e = expr; RPAREN { Empty(e) }
+    | CONS; LPAREN; e1 = expr; COMMA; e2 = expr; RPAREN { Cons(e1, e2) }
+    | EMPTYTREE { EmptyTree }
+    | NODE; LPAREN; e1 = expr; COMMA; e2=expr; COMMA; e3=expr; RPAREN { Node(e1,e2,e3) }
+    | CASET; e1 = expr; OF; LBRACE; EMPTYTREE; ARROW; e2=expr; COMMA;
+      NODE; LPAREN; id1 = ID; COMMA; id2=ID; COMMA; id3=ID; RPAREN;
+      ARROW;  e3=expr; RBRACE { CaseT(e1,e2,id1,id2,id3,e3) }
     | e1=expr; DOT; id=ID { Proj(e1,id) }
     ;
 

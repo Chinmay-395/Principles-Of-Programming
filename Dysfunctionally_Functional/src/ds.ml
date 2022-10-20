@@ -1,3 +1,4 @@
+type 'a tree = Empty | Node of 'a * 'a tree * 'a tree
 type exp_val =
   | NumVal of int
   | BoolVal of bool
@@ -5,6 +6,9 @@ type exp_val =
   | TupleVal of exp_val list
   | RecordVal of ( string * exp_val ) list 
   | ProcVal of string*Ast.expr*env
+  | UnitVal
+  | ListVal of exp_val list
+  | TreeVal of exp_val tree
 and
  env =
   | EmptyEnv
@@ -89,6 +93,14 @@ let rec string_of_list_of_strings = function
   | [id] -> id
   | id::ids -> id ^ "," ^ string_of_list_of_strings ids
 
+let isTreeVal = function
+  
+  | TreeVal(_) -> true
+  | _ -> false 
+
+let isList = function
+  | ListVal(_) -> true
+  | _ -> false
 
 (* operations on expressed values *)
 let int_of_numVal : exp_val -> int ea_result =
@@ -114,6 +126,15 @@ let list_of_tupleVal : exp_val -> (exp_val list)  ea_result =  function
 let fields_of_recordVal : exp_val -> ((string*exp_val) list) ea_result = function
   | RecordVal(fs) -> return fs
   | _ -> error "Expected a record!"
+
+let list_of_ListVal : exp_val -> (exp_val list) ea_result = function
+  | ListVal(fs) -> return fs
+  | _ -> error "Expected a list!"
+
+let tree_of_TreeVal = function
+  | TreeVal fs -> return fs
+  | _ -> error "Expected a tree!"
+
 
 let rec extend_env_list_helper =
   fun ids evs en ->
@@ -155,6 +176,9 @@ let rec string_of_expval = function
       n^"="^string_of_expval ev) fs) ^")"
   | ProcVal (id,body,env) -> "ProcVal ("^ id ^","^Ast.string_of_expr
                                body^","^ String.concat ",\n" (string_of_env' [] env)^")"
+  | ListVal(_evs) -> "ListVal"
+  | TreeVal(_t) -> "TreeVal"
+  | UnitVal  -> "UnitVal"
 and 
   string_of_env' ac = function
   | EmptyEnv -> ac

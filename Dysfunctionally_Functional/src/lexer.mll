@@ -81,6 +81,16 @@ rule read =
   | id       { ID (Lexing.lexeme lexbuf) }
   | int      { INT (int_of_string (Lexing.lexeme lexbuf)) }
   | eof      { EOF }
+  | "cons"      { CONS }
+  | "hd"        { HD }
+  | "tl"        { TL }
+  | "empty?"    { EMPTY }
+  | "emptylist" { EMPTYLIST }
+  | "emptytree" { EMPTYTREE }
+  | "node"      { NODE }
+  | "caseT"     { CASET }
+  | "->"        { ARROW }  
+  | "of"        { OF }
   | _
       { raise (Error (Printf.sprintf
                         "At offset %d: unexpected character."
