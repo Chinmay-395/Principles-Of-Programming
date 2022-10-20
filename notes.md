@@ -89,9 +89,18 @@ its called the "higher order trick"
 'g' is running 'g' the same as 'f' is running 'f'
 ------------------------------------------------
 
-# Doubt
-
 explain the 'rec' language
 
 ------------------------------------------------
+implementation of untuple
+------------------------------------------------
 
+
+# Need to do
+
+1. unpair
+2. dynamic scooping
+3. 2.4.8 even & odd
+4. 2.4.9
+5. 2.4.10
+6. 
