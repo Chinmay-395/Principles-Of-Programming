@@ -47,7 +47,7 @@ and
       then eval_expr e2  
       else eval_expr e3 
   | Let(id,def,body) ->
-      eval_expr def >>=
+      eval_expr def >>= 
       extend_env id >>+
       eval_expr body
   
@@ -107,8 +107,9 @@ and
     clos_of_procVal >>= fun clos ->
     eval_expr e2 >>= 
     apply_clos clos 
-  
-
+  | Letrec(id,par,e1,e2) ->
+    extend_env_rec id par e1 >>+
+    eval_expr e2 
   | Debug(_e) ->
       string_of_env >>= fun str ->
       print_endline str;

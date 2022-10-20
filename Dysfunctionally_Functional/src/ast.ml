@@ -3,8 +3,8 @@
 type expr =
   | Var of string
   | Int of int
-  | Even of expr
-  | Odd of expr 
+  (* | Even of expr
+  | Odd of expr  *)
   | Add of expr*expr
   | Sub of expr*expr
   | Mul of expr*expr

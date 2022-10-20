@@ -9,6 +9,7 @@ and
  env =
   | EmptyEnv
   | ExtendEnv of string * exp_val * env
+  | ExtendEnvRec of string*string*Ast.expr*env 
 
 
 type 'a result = Ok of 'a | Error of string
@@ -78,6 +79,10 @@ let rec apply_env : string -> exp_val ea_result =
       if id=v
       then Ok ev
       else apply_env id tail
+    | ExtendEnvRec(v,par,body,tail) ->
+    if id=v
+    then Ok (ProcVal (par,body,env))
+    else apply_env id tail
 
 let rec string_of_list_of_strings = function
   | [] -> ""
@@ -124,6 +129,10 @@ let extend_env_list =
   fun en ->
   Ok (extend_env_list_helper ids evs en)
 
+let extend_env_rec : string -> string -> Ast.expr -> env ea_result =
+  fun id par body env  ->
+    Ok (ExtendEnvRec(id,par,body,env))
+
 let lookup_env : env ea_result =
   fun env ->
   Ok env
@@ -150,6 +159,8 @@ and
   string_of_env' ac = function
   | EmptyEnv -> ac
   | ExtendEnv (id,v,env ) -> string_of_env'(( id ^ " := " ^ string_of_expval v ) :: ac) env
+  | ExtendEnvRec(id,param,body,env) -> string_of_env'
+  ((id^":=Rec("^param^","^Ast.string_of_expr body^")")::ac) env
 let string_of_env : string ea_result =
   fun env ->
   match env with
