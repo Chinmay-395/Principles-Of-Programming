@@ -50,10 +50,7 @@ and
       eval_expr def >>=
       extend_env id >>+
       eval_expr body
-  | Debug(e) ->
-      string_of_env >>= fun str ->
-      print_endline str;
-      error " Debug called "
+  
   | Pair(e1,e2) ->
     eval_expr e1 >>= fun ev1 ->
       eval_expr e2 >>= fun ev2 ->
@@ -110,14 +107,12 @@ and
     clos_of_procVal >>= fun clos ->
     eval_expr e2 >>= 
     apply_clos clos 
-  (* | Even(e) ->
-    eval_expr e  >>= 
-      int_of_numVal >>= fun n ->
-        if n==0 then return (BoolVal (true)) else Odd(NumVal(n-1))
-  | Odd(e) ->
-    eval_expr e  >>= 
-      int_of_numVal >>= fun n ->
-        if n==0 then return (BoolVal (false)) else Even(NumVal(n-1)) *)
+  
+
+  | Debug(_e) ->
+      string_of_env >>= fun str ->
+      print_endline str;
+      error " Debug called "
 
   | _ -> failwith "Not implemented yet!"
 
