@@ -74,11 +74,36 @@ in let y =3
 in x + y " ;;
 - : exp_val Dysfunctionally_Functional.Ds.result = Ok (NumVal 5)
 ```
+**The rec example**
+------------------------------------------------
+─( 12:03:58 )─< command 13 >─────────────────────────────────────{ counter: 0 }─
+utop # interp "
+letrec fact ( x ) =
+if zero?( x )
+then 1
+else x * (fact (x-1))
+in (fact 3)";;
+- : exp_val Dysfunctionally_Functional.Ds.result = Ok (NumVal 6)
+------------------------------------------------
+**the dynamic scoping problem**
+------------------------------------------------
+─( 13:21:25 )─< command 1 >──────────────────────────────────────{ counter: 0 }─
+utop # interp "
+let f = proc (x) { if zero?(x) then 1 else x*(f(x -1)) }
+in (f 6)";;
+- : exp_val Dysfunctionally_Functional.Ds.result = Ok (NumVal 720)
+─( 13:21:39 )─< command 2 >──────────────────────────────────────{ counter: 0 }─
+utop # interp "
+let f = let a =2 in proc ( x ) { x + a }
+in (f 2) ";;
+- : exp_val Dysfunctionally_Functional.Ds.result = Error "a not found!"
 ------------------------------------------------
 
 # Doubt
 
-
+-----------------------------------------------
+the proc language
+-----------------------------------------------
 **Please explain again**
 
 ```ocaml
@@ -88,11 +113,11 @@ its called the "higher order trick"
 
 'g' is running 'g' the same as 'f' is running 'f'
 ------------------------------------------------
-
 explain the 'rec' language
-
 ------------------------------------------------
 implementation of untuple
+------------------------------------------------
+the mutually recurrsive `and`
 ------------------------------------------------
 
 
@@ -103,4 +128,14 @@ implementation of untuple
 3. 2.4.8 even & odd
 4. 2.4.9
 5. 2.4.10
-6. 
+6. 2.5.2
+
+```
+interp "
+let one =1
+in letrec fact ( x ) =
+if zero ?( x )
+then one
+else x * ( fact (x -1))
+in debug (( fact 6)) " ; ;
+```
