@@ -1,5 +1,5 @@
 (* This file defines expressed values and environments *)
-
+(* Name: Chinmay Dali *)
 
 
 
@@ -104,7 +104,21 @@ let rec string_of_list_of_strings = function
   | [id] -> id
   | id::ids -> id ^ "," ^ string_of_list_of_strings ids
 
+let isTreeVal = function
+  | TreeVal(_) -> true
+  | _ -> false 
 
+let isList = function
+  | ListVal(_) -> true
+  | _ -> false
+
+let list_of_ListVal : exp_val -> (exp_val list) ea_result = function
+  | ListVal(fs) -> return fs
+  | _ -> error "Expected a list!"
+
+let tree_of_TreeVal = function
+  | TreeVal fs -> return fs
+  | _ -> error "Expected a tree!"
 
 let rec string_of_expval = function
   | NumVal n -> "NumVal " ^ string_of_int n
