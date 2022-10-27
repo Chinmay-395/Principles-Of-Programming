@@ -8,7 +8,7 @@ The function apply_clos sets en to be the new current environment and then exten
 assignment of id to ev. Under this extended environment, it proceeds with the evaluation of the
 body of the closure, namely e. *)
 let rec apply_clos : string*Ast.expr*env -> exp_val -> exp_val ea_result =
-  fun (id,e,en) ev ->
+  fun (id,e,_en) ev ->
   (* return en >>+ *)
   extend_env id ev >>+
   eval_expr e
@@ -118,9 +118,14 @@ and
       string_of_env >>= fun str ->
       print_endline str;
       error " Debug called "
-  | Cons(e1, e2) -> failwith "implement me"
-  | Hd(e1) ->  failwith "implement me"
-  | Tl(e1) ->  failwith "implement me"
+  | Cons(e1, e2) -> 
+    eval_expr e1  >>= fun n ->
+    eval_expr e2  >>= list_of_ListVal >>= fun m ->
+      (* print_endline n *)
+      return (ListVal(n::m)) 
+    
+  | Hd(e1) ->  eval_expr e1 >>= list_of_ListVal >>= fun v3 -> return ((List.hd v3))
+  | Tl(e1) ->  eval_expr e1 >>= list_of_ListVal >>= fun v3 -> return (ListVal(List.tl v3))
   | Empty(e1)  ->  eval_expr e1 >>=
         fun v1 -> if (isTreeVal v1) 
                       then  tree_of_TreeVal v1 >>= fun v3 -> return (BoolVal (v3 == Empty) )
@@ -130,8 +135,22 @@ and
 
   | EmptyList    ->  return (ListVal [] )
   | EmptyTree ->  return (TreeVal(Empty))
-  | Node(e1,lte,rte) ->  failwith "implement me"
-  | CaseT(target,emptycase,id1,id2,id3,nodecase) ->  failwith "implement me"
+  | Node(e1,lte,rte) ->  
+    eval_expr e1 >>= fun x ->
+    eval_expr lte >>= 
+      tree_of_TreeVal >>= fun n2 ->
+    eval_expr rte >>= 
+      tree_of_TreeVal >>= fun n3 ->
+        return (TreeVal(Node(x,n2,n3)))
+  | CaseT(target,emptycase,id1,id2,id3,nodecase) ->  
+    eval_expr target >>= tree_of_TreeVal >>= fun t ->
+      (match t with
+      | Empty -> eval_expr emptycase
+      | Node(x,n1,n2) ->
+          extend_env id1 x >>+
+          extend_env id2 (TreeVal n1) >>+
+          extend_env id3 (TreeVal n2) >>+
+          eval_expr nodecase)
   | _ -> failwith "Not implemented yet!"
 
 
