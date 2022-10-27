@@ -1,23 +1,4 @@
-**EX 1.3.1** What is the difference between a result and an expressed value?
-
-The subset of results that are integers are called expressed values: it is the name given to non-
-error results of evaluation.
-
-**EX 1.3.2**
---------------------------------------
-```bash
-─( 16:09:46 )─< command 0 >──────────────────────────────────────{ counter: 0 }─
-utop # interp "1+2";;
-- : int Dysfunctionally_Functional.Ds.result = Ok 3
-─( 16:09:46 )─< command 1 >──────────────────────────────────────{ counter: 0 }─
-utop # interp "8*2";;
-- : int Dysfunctionally_Functional.Ds.result = Ok 16
-─( 16:14:40 )─< command 13 >─────────────────────────────────────{ counter: 0 }─
-utop # interp "abs(4-5)";;
-- : int Dysfunctionally_Functional.Ds.result = Ok 1
-```
-----------------------------------------
-
+# Implementation running of different example
 **implemented expressed values and environments**
 ----------------------------------------
 ```bash
@@ -99,7 +80,29 @@ in (f 2) ";;
 - : exp_val Dysfunctionally_Functional.Ds.result = Error "a not found!"
 ------------------------------------------------
 
-# Doubt
+###### EX 1.3.1 
+----------------------------------------
+What i`s the difference between a result and an expressed value?
+The subset of results that are integers are called expressed values: it is the name given to non-
+error results of evaluation.
+----------------------------------------
+
+###### EX 1.3.2
+--------------------------------------
+```bash
+─( 16:09:46 )─< command 0 >──────────────────────────────────────{ counter: 0 }─
+utop # interp "1+2";;
+- : int Dysfunctionally_Functional.Ds.result = Ok 3
+─( 16:09:46 )─< command 1 >──────────────────────────────────────{ counter: 0 }─
+utop # interp "8*2";;
+- : int Dysfunctionally_Functional.Ds.result = Ok 16
+─( 16:14:40 )─< command 13 >─────────────────────────────────────{ counter: 0 }─
+utop # interp "abs(4-5)";;
+- : int Dysfunctionally_Functional.Ds.result = Ok 1
+```
+----------------------------------------
+
+# Doubt --> (Done)
 
 -----------------------------------------------
 the proc language
@@ -123,12 +126,12 @@ the mutually recurrsive `and`
 
 # Need to do
 
-1. unpair
-2. dynamic scooping
-3. 2.4.8 even & odd
-4. 2.4.9
-5. 2.4.10
-6. 2.5.2
+1. unpair --> (Done)
+2. dynamic scooping --> (Haven't done)
+3. 2.4.8 even & odd --> (Haven't done)
+4. 2.4.9 --> Done
+5. 2.4.10 --> Done with HW3
+6. 2.5.2 --> Done
 
 ```
 interp "
@@ -139,3 +142,40 @@ then one
 else x * ( fact (x -1))
 in debug (( fact 6)) " ; ;
 ```
+
+
+
+# Doubt --> in-progress (sent to Ramana)
+
+1. The program does run inside my current language implmentation and produces the error mentioned below
+```bash
+─( 13:07:35 )─< command 1 >──────────────────────────────────────────────{ counter: 0 }─
+utop # interp "cons(1,emptylist)";;
+Exception: Dysfunctionally_Functional.Parser.MenhirBasics.Error.
+```
+
+###### Exercise 2.5.3
+
+interp "
+let l = cons (1 , cons (2 , cons (1 , emptylist )))
+in let is_one = proc ( x ) { zero?(x-1)}
+in letrec filter(l) = proc(f){
+    if empty?(l) 
+      then emptylist
+    else (
+        if (f hd(l)) 
+          then 
+            cons(hd(l), 
+            (filter tl(l)) f))
+        else (filter tl(l) f)
+}";;
+
+letrec foldr(l) = proc(f){
+    proc(a){
+        if empty?(l) 
+          then a 
+        else 
+          ((f hd(l)) (((foldr tl(l))f)a) )
+    }
+    
+}";;
