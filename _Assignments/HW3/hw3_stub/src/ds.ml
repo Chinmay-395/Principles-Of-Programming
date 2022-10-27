@@ -126,7 +126,7 @@ let rec string_of_expval = function
   | UnitVal  -> "UnitVal"
   | ProcVal(par,body,env) -> "ProcVal("^ par ^","^Ast.string_of_expr
                                body^", "^string_of_env' env ^")"    
-  | ListVal(_evs) -> "ListVal"
+  | ListVal(xs) -> "ListVal" ^ string_of_list_of_strings(List.map(string_of_expval)xs) 
   | TreeVal(_t) -> "TreeVal"
 and
   string_of_env'  = function

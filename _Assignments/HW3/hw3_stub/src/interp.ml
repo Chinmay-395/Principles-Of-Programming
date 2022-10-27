@@ -80,7 +80,9 @@ and
         fun v1 -> if (isTreeVal v1) 
                       then  tree_of_TreeVal v1 >>= fun v3 -> return (BoolVal (v3 == Empty) )
                   else if(isList v1) 
-                    then list_of_ListVal v1 >>= fun v3 -> return (BoolVal (v3 == [] ))
+                    then list_of_ListVal v1 >>= fun v3 -> 
+                      print_endline (string_of_expval(List.hd(v3)));
+                      return (BoolVal (v3 == [] ))
                   else error "Niether Tree nor List"
   | EmptyList    ->  return (ListVal [] )
   | EmptyTree ->  return (TreeVal(Empty))
@@ -90,6 +92,7 @@ and
       tree_of_TreeVal >>= fun n2 ->
     eval_expr rte >>= 
       tree_of_TreeVal >>= fun n3 ->
+        (* print_endline n3; *)
         return (TreeVal(Node(x,n2,n3)))
 
   | CaseT(target,emptycase,id1,id2,id3,nodecase) ->  
