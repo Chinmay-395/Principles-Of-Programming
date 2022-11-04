@@ -1,4 +1,4 @@
-# Name: Dysfunctionally Functional Language
+# Dysfunctionally Functional Language
 
 This is a compiler frontend ie an interpreter written in OCAML language.
 
@@ -67,4 +67,35 @@ returns an error, propagate it and conclude.
 <Expression>::= (<Expression>)
 
 <BOp>::= + | - | * | /
+```
+
+# Proc
+
+```
+〈Expression〉 ::= 〈Number〉
+〈Expression〉 ::= 〈Identifier〉
+〈Expression〉 ::= 〈Expression〉〈BOp〉〈Expression〉
+〈Expression〉 ::= zero?(〈Expression〉)
+〈Expression〉 ::= if 〈Expression〉then 〈Expression〉else 〈Expression〉
+〈Expression〉 ::= let 〈Identifier〉= 〈Expression〉in 〈Expression〉
+〈Expression〉 ::= (〈Expression〉)
+〈Expression〉 ::= proc(〈Identifier〉){〈Expression〉}
+〈Expression〉 ::= (〈Expression〉〈Expression〉)
+〈BOp〉 ::= + |- |* |/
+```
+
+# Rec
+
+```
+〈Expression〉 ::= 〈Number〉
+〈Expression〉 ::= 〈Identifier〉
+〈Expression〉 ::= 〈Expression〉〈BOp〉〈Expression〉
+〈Expression〉 ::= zero?(〈Expression〉)
+〈Expression〉 ::= if 〈Expression〉then 〈Expression〉else 〈Expression〉
+〈Expression〉 ::= let 〈Identifier〉= 〈Expression〉in 〈Expression〉
+〈Expression〉 ::= (〈Expression〉)
+〈Expression〉 ::= proc(〈Identifier〉){〈Expression〉}
+〈Expression〉 ::= (〈Expression〉〈Expression〉)
+〈Expression〉 ::= letrec 〈Identifier〉(〈Identifier〉) = 〈Expression〉in 〈Expression〉
+〈BOp〉 ::= + |- |* |
 ```
