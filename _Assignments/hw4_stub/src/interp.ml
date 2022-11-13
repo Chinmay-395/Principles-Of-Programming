@@ -126,11 +126,30 @@ and
     sequence (List.map process_field fs) >>= fun evs ->
     return (RecordVal (addIds fs evs))
   | Proj(e,id) ->
-    failwith "implement"
+    eval_expr e >>=
+    fields_of_recordVal >>= fun fs ->
+      let rec projrec lt =
+    match lt with
+    | [] -> error "Proj: String not found."
+    | (a,b)::t -> 
+      if a = id 
+      then  int_of_refVal (snd b) >>= 
+            Store.deref g_store
+      else projrec t
+    in projrec fs
   | SetField(e1,id,e2) ->
-    failwith "implement"
+    eval_expr e1 >>=
+  fields_of_recordVal >>= fun x1  ->
+    eval_expr e2 >>= fun x2 -> 
+       let second = List.assoc_opt id x1 in
+   (match second with
+   | None -> error "Field not found"
+   | Some(true, RefVal a) -> (Store.set_ref g_store a x2) >>= 
+      fun _final -> return UnitVal 
+   | _ -> error "Field not mutable")
+    
   | IsNumber(e) ->
-    failwith "implement"
+    eval_expr e >>= is_numVal >>= fun number -> return (BoolVal number)
   | Unit -> return UnitVal
   | Debug(_e) ->
     string_of_env >>= fun str_env ->
