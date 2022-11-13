@@ -8,7 +8,18 @@ in let add_front = proc (x) { proc (l) {
 		 l.size <= l.size+1
               end
 	      } }
-in let remove_last = (* complete *)
+in letrec remove_last_helper(l) = proc (orig) {
+    if (number?(l.next.next))
+    then begin l.next <= 0; orig.size <= orig.size-1 end
+    else ((remove_last_helper l.next) orig)
+  }
+
+in let remove_last = proc (list)
+  {
+    if (number?(list.head.next))
+    then begin list.head <= list.head.next; list.size <= list.size-1 end
+    else ((remove_last_helper list.head) list)
+  }
 in begin
      ((add_front 2) l1);
      ((add_front 3) l1);

@@ -1,35 +1,11 @@
 
 (* Add exercise 3 *)
-(*
-     33
-    /  \
-   12  44
-*)
 
 let n_left = { data <= 12; left <= 0; right <= 0}    (* 0 in head signals null *)
 in let n_right = { data <= 44; left <= 0; right <= 0}
 in let n_root = { data <= 33; left <= n_left ; right <= n_right }
 in let t1 = { root <= n_root ; size <= 3} 
-in letrec insert_node (node) = proc (val) {
-  (if number?(node)
-  then {data <= val; left<=0; right<=0}
-  else(
-    if (node.data < val) 
-    then begin node.right <= ((insert_node node.right) val);
-    node
-    end
-    else (
-      if (node.data > val)
-      then begin node.left <= ((insert_node node.left) val);
-      node
-      end
-      else 0
-    )
-  ))
-
-}
-in let add_bt = proc (t) {  proc (elem) { ((insert_node t.root) elem) } }
-(*in let add_bt = proc (t) {  proc (elem) { if (number?(t.root)) then (t.root <= {data <= val; left=0; right=0}) else ((insert_node t.root) elem) } }*)
+in let add_bt =(* complete *)
 in begin
      ((add_bt t1) 23);
      t1.size <= t1.size+1;
