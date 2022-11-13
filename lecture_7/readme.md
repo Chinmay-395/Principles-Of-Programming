@@ -16,7 +16,7 @@ begin & end functionaily
 (y:= !y+1; !y) + !y;; --> constructors work from right to left thus giving the o/p as 1 rather than 2 (by intuition)
 
 mutable is keyword
-
+w
 
 ```ocaml
 let add_last e ll =
