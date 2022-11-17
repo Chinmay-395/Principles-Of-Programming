@@ -1,10 +1,8 @@
-
-
-
 (test
-(name test)
-(libraries ounit explicit_refs))
+ (name test)
+ (libraries ounit2 explicit_refs))
 
 (env
-  (dev
-(flags (:standard -warn-error -A))))
+ (dev
+  (flags
+   (:standard -warn-error -A))))

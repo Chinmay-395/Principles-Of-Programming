@@ -1,3 +1,4 @@
+(* Name: Chinmay Dali & Tanay Shah *)
 open Ast
 open Ds
 
@@ -213,3 +214,156 @@ let interpf (s:string) : exp_val result =
   interp @@ read_file file_name
 
 
+(* Output
+  
+─( 22:19:19 )─< command 0 >──────────────────────────────────────────────────────────────────────────────{ counter: 0 }─
+utop # interpf "ll_add_front";;
+>>Environment:
+l1->{head <= RefVal (0); size <= RefVal (1)},
+add_front->ProcVal(x,Proc(l,BeginEnd(Var l.head<={data=Var x;next=Var l.head};Var l.size<=Add(Var l.size,Int 1))),[l1->{head <= RefVal (0); size <= RefVal (1)}])
+>>Store:
+0->{data <= RefVal (4); next <= RefVal (5)},
+1->NumVal 2,
+2->NumVal 2,
+3->NumVal 0,
+4->NumVal 3,
+5->{data <= RefVal (2); next <= RefVal (3)}
+- : exp_val Explicit_refs.Ds.result = Error "Reached breakpoint"
+
+─( 22:19:19 )─< command 1 >──────────────────────────────────────────────────────────────────────────────{ counter: 0 }─
+utop # interpf "ll_bump";;
+>>Environment:
+l1->{head <= RefVal (6); size <= RefVal (7)},
+add_front->ProcVal(x,Proc(l,BeginEnd(Var l.head<={data=Var x;next=Var l.head};Var l.size<=Add(Var l.size,Int 1))),[l1->{head <= RefVal (6); size <= RefVal (7)}]),
+bump_helper->Rec(node,IfThenElse(Number?(Var node),Int 0,BeginEnd(Var node.data<=Add(Var node.data,Int 1);App(Var bump_helper,Var node.next)))),
+bump->ProcVal(ll,App(Var bump_helper,Var ll.head),[l1->{head <= RefVal (6); size <= RefVal (7)},add_front->ProcVal(x,Proc(l,BeginEnd(Var l.head<={data=Var x;next=Var l.head};Var l.size<=Add(Var l.size,Int 1))),[l1->{head <= RefVal (6); size <= RefVal (7)}]),bump_helper->Rec(node,IfThenElse(Number?(Var node),Int 0,BeginEnd(Var node.data<=Add(Var node.data,Int 1);App(Var bump_helper,Var node.next))))])
+>>Store:
+0->{data <= RefVal (4); next <= RefVal (5)},
+1->NumVal 2,
+2->NumVal 2,
+3->NumVal 0,
+4->NumVal 3,
+5->{data <= RefVal (2); next <= RefVal (3)},
+6->{data <= RefVal (10); next <= RefVal (11)},
+7->NumVal 2,
+8->NumVal 3,
+9->NumVal 0,
+10->NumVal 4,
+11->{data <= RefVal (8); next <= RefVal (9)}
+- : exp_val Explicit_refs.Ds.result = Error "Reached breakpoint"
+
+
+─( 22:20:10 )─< command 2 >──────────────────────────────────────────────────────────────────────────────{ counter: 0 }─
+utop # interpf "ll_remove_first";;
+>>Environment:
+l1->{head <= RefVal (12); size <= RefVal (13)},
+add_front->ProcVal(x,Proc(l,BeginEnd(Var l.head<={data=Var x;next=Var l.head};Var l.size<=Add(Var l.size,Int 1))),[l1->{head <= RefVal (12); size <= RefVal (13)}]),
+remove_first->ProcVal(l,BeginEnd(Var l.head<=Var l.head.next;Var l.size<=Sub(Var l.size,Int 1)),[l1->{head <= RefVal (12); size <= RefVal (13)},add_front->ProcVal(x,Proc(l,BeginEnd(Var l.head<={data=Var x;next=Var l.head};Var l.size<=Add(Var l.size,Int 1))),[l1->{head <= RefVal (12); size <= RefVal (13)}])])
+>>Store:
+0->{data <= RefVal (4); next <= RefVal (5)},
+1->NumVal 2,
+2->NumVal 2,
+3->NumVal 0,
+4->NumVal 3,
+5->{data <= RefVal (2); next <= RefVal (3)},
+6->{data <= RefVal (10); next <= RefVal (11)},
+7->NumVal 2,
+8->NumVal 3,
+9->NumVal 0,
+10->NumVal 4,
+11->{data <= RefVal (8); next <= RefVal (9)},
+12->{data <= RefVal (16); next <= RefVal (17)},
+13->NumVal 2,
+14->NumVal 2,
+15->NumVal 0,
+16->NumVal 3,
+17->{data <= RefVal (14); next <= RefVal (15)},
+18->NumVal 4,
+19->{data <= RefVal (16); next <= RefVal (17)}
+- : exp_val Explicit_refs.Ds.result = Error "Reached breakpoint"
+
+─( 22:20:55 )─< command 3 >──────────────────────────────────────────────────────────────────────────────{ counter: 0 }─
+utop # interpf "ll_remove_last";;
+>>Environment:
+l1->{head <= RefVal (20); size <= RefVal (21)},
+add_front->ProcVal(x,Proc(l,BeginEnd(Var l.head<={data=Var x;next=Var l.head};Var l.size<=Add(Var l.size,Int 1))),[l1->{head <= RefVal (20); size <= RefVal (21)}]),
+remove_last_helper->Rec(l,Proc(orig,IfThenElse(Number?(Var l.next.next),BeginEnd(Var l.next<=Int 0;Var orig.size<=Sub(Var orig.size,Int 1)),App(App(Var remove_last_helper,Var l.next),Var orig)))),
+remove_last->ProcVal(list,IfThenElse(Number?(Var list.head.next),BeginEnd(Var list.head<=Var list.head.next;Var list.size<=Sub(Var list.size,Int 1)),App(App(Var remove_last_helper,Var list.head),Var list)),[l1->{head <= RefVal (20); size <= RefVal (21)},add_front->ProcVal(x,Proc(l,BeginEnd(Var l.head<={data=Var x;next=Var l.head};Var l.size<=Add(Var l.size,Int 1))),[l1->{head <= RefVal (20); size <= RefVal (21)}]),remove_last_helper->Rec(l,Proc(orig,IfThenElse(Number?(Var l.next.next),BeginEnd(Var l.next<=Int 0;Var orig.size<=Sub(Var orig.size,Int 1)),App(App(Var remove_last_helper,Var l.next),Var orig))))])
+>>Store:
+0->{data <= RefVal (4); next <= RefVal (5)},
+1->NumVal 2,
+2->NumVal 2,
+3->NumVal 0,
+4->NumVal 3,
+5->{data <= RefVal (2); next <= RefVal (3)},
+6->{data <= RefVal (10); next <= RefVal (11)},
+7->NumVal 2,
+8->NumVal 3,
+9->NumVal 0,
+10->NumVal 4,
+11->{data <= RefVal (8); next <= RefVal (9)},
+12->{data <= RefVal (16); next <= RefVal (17)},
+13->NumVal 2,
+14->NumVal 2,
+15->NumVal 0,
+16->NumVal 3,
+17->{data <= RefVal (14); next <= RefVal (15)},
+18->NumVal 4,
+19->{data <= RefVal (16); next <= RefVal (17)},
+20->{data <= RefVal (26); next <= RefVal (27)},
+21->NumVal 2,
+22->NumVal 2,
+23->NumVal 0,
+24->NumVal 3,
+25->NumVal 0,
+26->NumVal 4,
+27->{data <= RefVal (24); next <= RefVal (25)}
+- : exp_val Explicit_refs.Ds.result = Error "Reached breakpoint"
+
+
+─( 22:21:22 )─< command 4 >──────────────────────────────────────────────────────────────────────────────{ counter: 0 }─
+utop # interpf "ll_add_last";;
+>>Environment:
+l1->{head <= RefVal (28); size <= RefVal (29)},
+add_front->ProcVal(a,Proc(b,BeginEnd(Var b.head<={data=Var a;next=Var b.head};Var b.size<=Add(Var b.size,Int 1))),[l1->{head <= RefVal (28); size <= RefVal (29)}]),
+add_last_helper->Rec(l,Proc(x,Proc(orig,IfThenElse(Number?(Var l.next),BeginEnd(Var l.next<={data=Var x;next=Int 0};Var orig.size<=Add(Var orig.size,Int 1)),App(App(App(Var add_last_helper,Var l.next),Var x),Var orig))))),
+add_last->ProcVal(list,Proc(v,IfThenElse(Number?(Var list.head),App(App(Var add_front,Var v),Var list),App(App(App(Var add_last_helper,Var list.head),Var v),Var list))),[l1->{head <= RefVal (28); size <= RefVal (29)},add_front->ProcVal(a,Proc(b,BeginEnd(Var b.head<={data=Var a;next=Var b.head};Var b.size<=Add(Var b.size,Int 1))),[l1->{head <= RefVal (28); size <= RefVal (29)}]),add_last_helper->Rec(l,Proc(x,Proc(orig,IfThenElse(Number?(Var l.next),BeginEnd(Var l.next<={data=Var x;next=Int 0};Var orig.size<=Add(Var orig.size,Int 1)),App(App(App(Var add_last_helper,Var l.next),Var x),Var orig)))))])
+>>Store:
+0->{data <= RefVal (4); next <= RefVal (5)},
+1->NumVal 2,
+2->NumVal 2,
+3->NumVal 0,
+4->NumVal 3,
+5->{data <= RefVal (2); next <= RefVal (3)},
+6->{data <= RefVal (10); next <= RefVal (11)},
+7->NumVal 2,
+8->NumVal 3,
+9->NumVal 0,
+10->NumVal 4,
+11->{data <= RefVal (8); next <= RefVal (9)},
+12->{data <= RefVal (16); next <= RefVal (17)},
+13->NumVal 2,
+14->NumVal 2,
+15->NumVal 0,
+16->NumVal 3,
+17->{data <= RefVal (14); next <= RefVal (15)},
+18->NumVal 4,
+19->{data <= RefVal (16); next <= RefVal (17)},
+20->{data <= RefVal (26); next <= RefVal (27)},
+21->NumVal 2,
+22->NumVal 2,
+23->NumVal 0,
+24->NumVal 3,
+25->NumVal 0,
+26->NumVal 4,
+27->{data <= RefVal (24); next <= RefVal (25)},
+28->{data <= RefVal (30); next <= RefVal (31)},
+29->NumVal 3,
+30->NumVal 2,
+31->{data <= RefVal (32); next <= RefVal (33)},
+32->NumVal 3,
+33->{data <= RefVal (34); next <= RefVal (35)},
+34->NumVal 4,
+35->NumVal 0
+- : exp_val Explicit_refs.Ds.result = Error "Reached breakpoint"
+*)
