@@ -78,10 +78,7 @@ rule read =
   | "not"    { NOT }
   | "max"    { MAX }
   | "(*"     { comment lexbuf } (* activate "comment" rule *)
-  | id       { ID (Lexing.lexeme lexbuf) }
-  | int      { INT (int_of_string (Lexing.lexeme lexbuf)) }
-  | eof      { EOF }
-  | "cons"      { CONS }
+    | "cons"      { CONS }
   | "hd"        { HD }
   | "tl"        { TL }
   | "empty?"    { EMPTY }
@@ -91,6 +88,10 @@ rule read =
   | "caseT"     { CASET }
   | "->"        { ARROW }  
   | "of"        { OF }
+  | id       { ID (Lexing.lexeme lexbuf) }
+  | int      { INT (int_of_string (Lexing.lexeme lexbuf)) }
+  | eof      { EOF }
+
   | _
       { raise (Error (Printf.sprintf
                         "At offset %d: unexpected character."
