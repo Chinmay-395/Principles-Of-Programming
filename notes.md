@@ -264,8 +264,8 @@ Doubts -> Implicit Ref, Explicit Ref, Q2 & Q3 of Quiz on Nov 3 and Type Checking
 
 ### Show that it is typable
 
-                                ---------:TVar                   ---------:TInt
-                      {x:int,y:bool} |- x:int            {x:int,y:bool} |- x:int
+                         ---------:TVar                   ---------:TInt
+                {x:int,y:bool} |- x:int            {x:int,y:bool} |- x:int
 
 ---------:TVar --------- TVar --------- TSub  
 {x:int,y:bool} |- y:bool {x:int,y:bool} |- x: int {x:int,y:bool} |- x-1: int
@@ -321,4 +321,89 @@ in begin
 ( bump l1 ) ;
 debug ( l1 )
 end
+```
+
+### Ex 4.1.1
+
+**if zero?(8) then 1 else 2**
+
+--------TInt
+{} | - 8 : int
+-------------TisZero ------------TInt ------------TInt
+{} | - zero?8 : bool {} | - 1 : int {} | - 2 : int
+------------------------------------- TITE
+{} | - {if zero?(8) then 1 else 2} : bool <!-- bool -> int -->
+
+---
+
+{} | - {if zero?(8) then 1 else 2} : bool <!-- bool -> int -->
+
+1. **if zero?(8) then zero?(0) else zero?(1)**
+
+----------TInt -------------TInt -------------TInt  
+{} | - 8 : int {} | - 0 : int {} | - 8 : int
+-------------TisZero -------------TisZero -------------TisZero  
+{} | - zero?8 : bool {} | - zero?0 : bool {} | - zero?1 : bool
+------------------------------------------------TITE
+{} | - if zero?(8) then zero?(0) else zero?(1) : bool
+
+**proc (x:int) { x-2 }**
+
+--------------TInt
+{x:int} | x:int
+------------------TSub
+{x:int} | - x-2 : int
+--------------------------------------TInt
+{} | - proc (x:int) { x-2 } : int -> int
+
+1. proc (x:int) { proc (y:bool) { if y then x else x-1 } }
+
+**let x=3 in let y = 4 in x-y**
+
+x = 3
+----------TVar ----------------------------
+{x:int}|-x=3 , {x:int} |- let y=4 in x-y :int
+--------------------------------------------------TLet
+{} | - let let x=3 in let y = 4 in x-y : int -> int
+
+**let two? = proc(x:int) { if zero?(x-2) then 0 else 1 } in (two? 3)**
+
+### exercise 4.1.3
+
+**bool->int**
+
+```
+proc(f:bool){
+  if f then 1 else 3
+}
+```
+
+**(bool -> int) -> int**
+
+```
+proc(f:bool->int){
+  if zero?(f) then 2 else 3
+}
+```
+
+**bool -> (bool -> bool)**
+
+```
+proc(f:bool){
+  proc(g:bool){
+    proc(h:bool){
+      if h then f else g
+    }
+  }
+}
+```
+
+**(s -> t) -> (s -> t)**
+
+```
+proc(f:(s->t)){
+  proc(x:s){
+    (f x)
+  }
+}
 ```
