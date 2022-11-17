@@ -411,3 +411,47 @@ proc(f:(s->t)){
   }
 }
 ```
+
+### exercise 4.1.5
+
+```bash
+─( 13:05:13 )─< command 1 >──────────────────────────────────────────────────────────────────────────────────────────────────────{ counter: 0 }─
+utop # chk "letrec double (x:int):int = if zero?(x)
+then 0
+else ( double (x -1)) + 2
+in ( double 5)";;
+- : Checked.Ast.texpr Checked.ReM.result = Checked.ReM.Ok Checked.Ast.IntType
+```
+
+```bash
+─( 13:05:18 )─< command 2 >──────────────────────────────────────────────────────────────────────────────────────────────────────{ counter: 0 }─
+utop # chk "
+letrec double (x:int):int = if zero?(x)
+then 0
+else ( double (x -1)) + 2
+in double " ;;
+- : Checked.Ast.texpr Checked.ReM.result =
+Checked.ReM.Ok
+ (Checked.Ast.FuncType (Checked.Ast.IntType, Checked.Ast.IntType))
+```
+
+```bash
+utop #  chk "
+letrec double (x:int):bool = if zero?(x)
+then 0
+else ( double (x -1)) + 2
+in double " ;;
+- : Checked.Ast.texpr Checked.ReM.result =
+Checked.ReM.Error "arith: arguments must be ints"
+```
+
+```bash
+utop # chk "
+letrec double (x:int):bool = if zero?(x)
+then 0
+else 1
+in double " ;;
+- : Checked.Ast.texpr Checked.ReM.result =
+Checked.ReM.Error
+"LetRec: Type of recursive function does not match declaration"
+```
