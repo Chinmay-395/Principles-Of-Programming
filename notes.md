@@ -329,14 +329,10 @@ end
 
 --------TInt
 {} | - 8 : int
--------------TisZero ------------TInt ------------TInt
+-------------TisZero ------------TInt --------------TInt
 {} | - zero?8 : bool {} | - 1 : int {} | - 2 : int
 ------------------------------------- TITE
-{} | - {if zero?(8) then 1 else 2} : bool <!-- bool -> int -->
-
----
-
-{} | - {if zero?(8) then 1 else 2} : bool <!-- bool -> int -->
+{} | - {if zero?(8) then 1 else 2} : int <!-- bool -> int -->
 
 1. **if zero?(8) then zero?(0) else zero?(1)**
 
@@ -358,7 +354,7 @@ end
 
 1. proc (x:int) { proc (y:bool) { if y then x else x-1 } }
 
-**let x=3 in let y = 4 in x-y**
+**let x=3 in let y = 4 in x-y** <!-- incomplete-->
 
 x = 3
 ----------TVar ----------------------------
@@ -366,7 +362,15 @@ x = 3
 --------------------------------------------------TLet
 {} | - let let x=3 in let y = 4 in x-y : int -> int
 
-**let two? = proc(x:int) { if zero?(x-2) then 0 else 1 } in (two? 3)**
+**let two? = proc(x:int) { if zero?(x-2) then 0 else 1 } in (two? 3)** <!-- incomplete-->
+
+### exercise 4.1.2
+
+s != s->t
+
+Γ|- x:(s->t) Γ |- x:s
+----------------------- TApp
+Γ|- x x:t
 
 ### exercise 4.1.3
 
