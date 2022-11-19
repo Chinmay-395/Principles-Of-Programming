@@ -260,29 +260,47 @@ utop # x;;
 
 ```
 
-Doubts -> Implicit Ref, Explicit Ref, Q2 & Q3 of Quiz on Nov 3 and Type Checking
+<!-- The questions asked on 10th Nov 2022 to TA Ramana -->
+
+Questions: Doubts -> Implicit Ref, Explicit Ref, Q2 & Q3 of Quiz on Nov 3 and Type Checking
+Answer:
+**_store is a heap_**
+**_refVal is heap location thats why its an int_**
+
+<!-- --------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- The notes taken during lecture  -->
 
 ### Show that it is typable
 
-                         ---------:TVar                   ---------:TInt
-                {x:int,y:bool} |- x:int            {x:int,y:bool} |- x:int
-
----------:TVar --------- TVar --------- TSub  
-{x:int,y:bool} |- y:bool {x:int,y:bool} |- x: int {x:int,y:bool} |- x-1: int
+```
+                                                                ---------:TVar             ---------:TInt
+                                                      {x:int,y:bool} |- x:int    {x:int,y:bool} |- x:int
+y = bool                            x = int
+---------:TVar                     --------- TVar              --------- TSub
+{x:int,y:bool} |- y:bool , {x:int,y:bool} |- x: int , {x:int,y:bool} |- x-1: int
 ------------------------------- TITE
 {x:int,y:bool} |- if y then x else x-1 : int
 ---------------------------------------------------------------- TProc
 {x:int} |- proc (y:bool) { if y then x else x-1 } : bool -> int
 ---------------------------------------------------------------- TProc
 {} |- proc (x:int) { proc (y:bool) { if y then x else x-1 } } : int -> bool -> int
+```
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
+
+<!-- Doubts -->
 
 using TApp we cannot do higher order trick
-explain TRec
-explain TProj
-complete 4.1 bcoz it might be in asked next time -> 4.1.2 & 4.1.3
+explain TRec 🛑
 
-store is a heap
-refVal is heap location thats why its an int
+for TPair and TRecord how to use concrete syntax to create Type rules
+complete 4.1 bcoz it might be in asked next time -> 4.1.2 & 4.1.3 ✅
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
+
+<!-- HW4 testing  -->
+
+###### Regarding HW4 stub
 
 ```
 let l1 = { head <= 0 ; size <= 0}
@@ -323,54 +341,97 @@ debug ( l1 )
 end
 ```
 
+<!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
+
+# Types (Checked language)
+
 ### Ex 4.1.1
 
 **if zero?(8) then 1 else 2**
 
+```
 --------TInt
 {} | - 8 : int
 -------------TisZero ------------TInt --------------TInt
 {} | - zero?8 : bool {} | - 1 : int {} | - 2 : int
 ------------------------------------- TITE
 {} | - {if zero?(8) then 1 else 2} : int <!-- bool -> int -->
+```
 
-1. **if zero?(8) then zero?(0) else zero?(1)**
+**if zero?(8) then zero?(0) else zero?(1)**
 
-----------TInt -------------TInt -------------TInt  
+```
+----------TInt -------------TInt -------------TInt
 {} | - 8 : int {} | - 0 : int {} | - 8 : int
--------------TisZero -------------TisZero -------------TisZero  
+-------------TisZero -------------TisZero -------------TisZero
 {} | - zero?8 : bool {} | - zero?0 : bool {} | - zero?1 : bool
 ------------------------------------------------TITE
 {} | - if zero?(8) then zero?(0) else zero?(1) : bool
+```
 
 **proc (x:int) { x-2 }**
 
+```
 --------------TInt
 {x:int} | x:int
 ------------------TSub
 {x:int} | - x-2 : int
 --------------------------------------TInt
 {} | - proc (x:int) { x-2 } : int -> int
+```
 
-1. proc (x:int) { proc (y:bool) { if y then x else x-1 } }
+**proc (x:int) { proc (y:bool) { if y then x else x-1 } }**
 
-**let x=3 in let y = 4 in x-y** <!-- incomplete-->
+```
+                                                                ---------:TVar             ---------:TInt
+                                                      {x:int,y:bool} |- x:int    {x:int,y:bool} |- x:int
+y = bool                            x = int
+---------:TVar                     --------- TVar              --------- TSub
+{x:int,y:bool} |- y:bool , {x:int,y:bool} |- x: int , {x:int,y:bool} |- x-1: int
+------------------------------- TITE
+{x:int,y:bool} |- if y then x else x-1 : int
+---------------------------------------------------------------- TProc
+{x:int} |- proc (y:bool) { if y then x else x-1 } : bool -> int
+---------------------------------------------------------------- TProc
+{} |- proc (x:int) { proc (y:bool) { if y then x else x-1 } } : int -> bool -> int
+```
 
-x = 3
-----------TVar ----------------------------
-{x:int}|-x=3 , {x:int} |- let y=4 in x-y :int
+**let x=3 in let y = 4 in x-y**
+
+```
+
+-----------------TInt         -------TVar         --------------TSub
+{x:int}, x:int            {x:int} , y:int      {x=3,y=4} |- x-y :int
+----------- TVar       ---------------------------TLet
+{x:int}|-x=3 ,          {x:int} |- let y=4 in x-y :int
 --------------------------------------------------TLet
-{} | - let let x=3 in let y = 4 in x-y : int -> int
+{} | - let x=3 in let y = 4 in x-y : int
+```
 
-**let two? = proc(x:int) { if zero?(x-2) then 0 else 1 } in (two? 3)** <!-- incomplete-->
+**let two? = proc(x:int) { if zero?(x-2) then 0 else 1 } in (two? 3)** <!--Something went wrong-->
+
+```
+---------TVar  ---------------TInt
+{x:int} |- x , {x:int} |- 2 : int
+--------------TSub
+{x:int} |- x-2 : int
+---------------TIsZero   --------TInt         --------TInt
+{x:int} |- zero?(x-2):bool , {x:int} |- 0:int , {x:int} |- 1:int
+----------------------------------------TITE
+{x:int} |- if zero?(x-2) then 0 else 1 : int                          {} |- two?    {} |- 3 : t1
+------------------------------------------------------TProc   ---------------------------------------------------------------------------------TApp
+{} |- proc(x:int) { if zero?(x-2) then 0 else 1 } : int->int                                                     {} two? 3 : int
+--------------------------------------------------------------------------TLet
+{} |- let two? = proc(x:int) { if zero?(x-2) then 0 else 1 } in (two? 3) : int
+```
 
 ### exercise 4.1.2
-
-s != s->t
 
 Γ|- x:(s->t) Γ |- x:s
 ----------------------- TApp
 Γ|- x x:t
+
+we thus verify expression (s) & (s->t) are not the same
 
 ### exercise 4.1.3
 
@@ -415,21 +476,21 @@ proc(f:(s->t)){
 ### exercise 4.1.5
 
 ```bash
-─( 13:05:13 )─< command 1 >──────────────────────────────────────────────────────────────────────────────────────────────────────{ counter: 0 }─
 utop # chk "letrec double (x:int):int = if zero?(x)
 then 0
 else ( double (x -1)) + 2
 in ( double 5)";;
+
 - : Checked.Ast.texpr Checked.ReM.result = Checked.ReM.Ok Checked.Ast.IntType
 ```
 
 ```bash
-─( 13:05:18 )─< command 2 >──────────────────────────────────────────────────────────────────────────────────────────────────────{ counter: 0 }─
 utop # chk "
 letrec double (x:int):int = if zero?(x)
 then 0
 else ( double (x -1)) + 2
 in double " ;;
+
 - : Checked.Ast.texpr Checked.ReM.result =
 Checked.ReM.Ok
  (Checked.Ast.FuncType (Checked.Ast.IntType, Checked.Ast.IntType))
@@ -441,6 +502,7 @@ letrec double (x:int):bool = if zero?(x)
 then 0
 else ( double (x -1)) + 2
 in double " ;;
+
 - : Checked.Ast.texpr Checked.ReM.result =
 Checked.ReM.Error "arith: arguments must be ints"
 ```
@@ -451,7 +513,63 @@ letrec double (x:int):bool = if zero?(x)
 then 0
 else 1
 in double " ;;
+
 - : Checked.Ast.texpr Checked.ReM.result =
 Checked.ReM.Error
 "LetRec: Type of recursive function does not match declaration"
 ```
+
+### exercise 4.1.6
+
+**pair (3 ,4)**
+
+```
+------TInt ------TInt
+Γ |- 3:int Γ |- 4:int
+--------------------TPair
+{} |- pair(3,4) (int * int)
+```
+
+**pair ( pair (3 ,4) ,5)**
+
+```
+------TInt ------TInt
+Γ |- 3:int Γ |- 4:int
+ -----------TPair            -----TInt
+{} |- pair(3,4): (int*int) , {}|- 5:int
+-------------------------- TPair
+{} |- pair(pair(3,4),5) ((int * int) * int)
+```
+
+**pair ( proc ( x : int ) { x -2 } ,4)** <!--incomplete 🛑-->
+
+```
+
+```
+
+**proc ( z : int \* int ) { unpair (x , y )= z in x }** <!--incomplete 🛑-->
+
+```
+
+proc ( z : int \* int ) { unpair (x , y )= z in x }
+```
+
+**proc ( z : int \* bool ) { unpair (x , y )= z in pair (y , x ) }** <!--incomplete 🛑-->
+
+```
+
+```
+
+### Exercise 4.1.7 <!--incomplete 🛑-->
+
+# Quiz 6A (17 Nov)
+
+<!--Ask TA 🛑-->
+
+let f = proc (x:int) { proc (y:bool) { if y then x else x-1 } } in (f 5)
+
+<!--Ask TA 🛑-->
+
+let z = proc(x:int){proc(y:int) {x-y}} in ((z 5) 10)
+
+<!--Ask TA 🛑-->
