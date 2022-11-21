@@ -48,47 +48,68 @@ let rec type_of_expr : expr -> texpr tea_result = function
      else error
          "LetRec: Type of recursive function does not match
 declaration")
+(* 
+chk " let x = newref(0) in deref(x)";; 
+chk "let x = newref(0) in x" ;;   
+chk "let x = newref(0) in setref(x,4)" ;;
+chk "newref(newref(zero?(0)))" ;;
+: texpr Checked . ReM . result = Ok ( RefType ( RefType BoolType ))
+chk "let x = 0 in setref(x ,4)";;
 
+let f = proc(z:<int*bool>){unpair(x,y) = z in pair(y,x)} in (f pair(1,zero?(0)))
+*)
   (* references *)
   | BeginEnd(es) ->
     List.fold_left (fun r e -> r >>= fun _ -> type_of_expr e) (return UnitType) es 
-  | NewRef(e) ->
-    error "type_of_expr: implement"  
-  | DeRef(e) ->
-    error "type_of_expr: implement"  
-  | SetRef(e1,e2) ->
-    error "type_of_expr: implement"  
-
-  (* pairs *)
-  | Pair(e1,e2) ->
-    error "type_of_expr: implement"
-  | Unpair(id1,id2,e1,e2) ->
-    error "type_of_expr: implement"
+  | NewRef(e) -> 
+    type_of_expr e >>= fun t -> return (RefType t)
       
+  | DeRef(e) -> 
+    type_of_expr e >>= 
+    arg_of_refType "deref: " >>= 
+    fun t -> return t
+  | SetRef(e1,e2) -> 
+    type_of_expr e1 >>= arg_of_refType "setRef: " >>= fun t1 ->
+    type_of_expr e2 >>= fun t2 ->
+         if(t1=t2) then return UnitType else error "wqeqw"
+      
+  (* pairs *)
+  | Pair(e1,e2) -> 
+    type_of_expr e1 >>= fun t1 ->
+    type_of_expr e2 >>= fun t2 ->
+      return (PairType(t1,t2))
+  | Unpair(id1,id2,e1,e2) ->
+    type_of_expr e1 >>= pair_of_pairType "Pair: " >>= fun (g,d) ->
+    extend_tenv id1 g >>+
+    extend_tenv id2 d >>+
+    type_of_expr e2
   (* lists *)
-  | EmptyList(t) ->
+  | EmptyList(t) -> (**Should be of the type listVal *)
     error "type_of_expr: implement"  
-  | Cons(h, t) ->
+  | Cons(h, t) -> (**Should be of the type listVal *)
     error "type_of_expr: implement"  
-  | Null(e) ->
+  | Null(e) -> (**Should be of the type listVal *)
      error "type_of_expr: implement"  
-  | Hd(e) ->
+  | Hd(e) -> (**Should be of the type listVal *)
     error "type_of_expr: implement"  
-  | Tl(e) ->
+  | Tl(e) -> (**Should be of the type listVal *)
     error "type_of_expr: implement"  
 
   (* trees *)
   | EmptyTree(t) ->
+    (* type_of_expr t >>= fun x ->
+      if t=TreeVal(Empty) then return TreeType
+      else error "EmptyTree: expected empty tree" *)
     error "type_of_expr: implement"  
   | Node(de, le, re) ->
     error "type_of_expr: implement"  
-  | NullT(t) ->
+  | NullT(t) -> (**Should be of the type TreeVal *)
     error "type_of_expr: implement"  
-  | GetData(t) ->
+  | GetData(t) -> (**Should be of the type TreeVal *)
     error "type_of_expr: implement"  
-  | GetLST(t) ->
+  | GetLST(t) -> (**Should be of the type TreeVal *)
     error "type_of_expr: implement"  
-  | GetRST(t) ->
+  | GetRST(t) -> (**Should be of the type TreeVal *)
     error "type_of_expr: implement"  
 
 
