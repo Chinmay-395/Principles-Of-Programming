@@ -71,7 +71,7 @@ let f = proc(z:<int*bool>){unpair(x,y) = z in pair(y,x)} in (f pair(1,zero?(0)))
   | SetRef(e1,e2) -> 
     type_of_expr e1 >>= arg_of_refType "setRef: " >>= fun t1 ->
     type_of_expr e2 >>= fun t2 ->
-         if(t1=t2) then return UnitType else error "wqeqw"
+         if(t1=t2) then return UnitType else error "Not of Ref type"
       
   (* pairs *)
   | Pair(e1,e2) -> 
@@ -84,35 +84,53 @@ let f = proc(z:<int*bool>){unpair(x,y) = z in pair(y,x)} in (f pair(1,zero?(0)))
     extend_tenv id2 d >>+
     type_of_expr e2
   (* lists *)
-  | EmptyList(t) -> (**Should be of the type listVal *)
-    error "type_of_expr: implement"  
-  | Cons(h, t) -> (**Should be of the type listVal *)
-    error "type_of_expr: implement"  
+  | EmptyList(t) -> return (ListType t)
+  | Cons(h, t) ->
+    type_of_expr h >>= fun v1 ->
+    type_of_expr t >>= arg_of_listType "List: " >>= fun v2 ->
+      if(v1=v2) 
+        then return (TreeType v2) 
+      else error "Wrong type"
   | Null(e) -> (**Should be of the type listVal *)
-     error "type_of_expr: implement"  
+    type_of_expr e >>=  
+    arg_of_listType "List: " >>= 
+    fun t1 -> return (BoolType)
   | Hd(e) -> (**Should be of the type listVal *)
-    error "type_of_expr: implement"  
-  | Tl(e) -> (**Should be of the type listVal *)
-    error "type_of_expr: implement"  
-
+    type_of_expr e >>= 
+    arg_of_listType "List: " >>= 
+    fun t1 -> return (t1)
+  | Tl(e) -> 
+    type_of_expr e >>= 
+    arg_of_listType "List: " >>= 
+    fun t1 -> return (ListType t1)
   (* trees *)
-  | EmptyTree(t) ->
-    (* type_of_expr t >>= fun x ->
-      if t=TreeVal(Empty) then return TreeType
-      else error "EmptyTree: expected empty tree" *)
-    error "type_of_expr: implement"  
+  | EmptyTree(t) -> return (TreeType t)
   | Node(de, le, re) ->
-    error "type_of_expr: implement"  
-  | NullT(t) -> (**Should be of the type TreeVal *)
-    error "type_of_expr: implement"  
-  | GetData(t) -> (**Should be of the type TreeVal *)
-    error "type_of_expr: implement"  
-  | GetLST(t) -> (**Should be of the type TreeVal *)
-    error "type_of_expr: implement"  
-  | GetRST(t) -> (**Should be of the type TreeVal *)
-    error "type_of_expr: implement"  
-
-
+    type_of_expr de >>= fun data ->
+      type_of_expr le >>= arg_of_treeType "Tree: " >>= fun lt ->
+        type_of_expr re >>= arg_of_treeType "Tree: " >>= fun rt ->
+          return (TreeType data)
+    
+  | NullT(t) -> 
+    type_of_expr t >>= arg_of_treeType "Tree: " >>= fun t1 -> return (BoolType) 
+  | GetData(e) -> 
+    type_of_expr e >>= 
+    arg_of_treeType "Tree: " >>= fun t -> return (IntType )
+    (* (match t with
+     | Node(i,_,_) -> return (IntType )
+     | _ -> error "Empty tree") *)
+  | GetLST(e) -> 
+    type_of_expr e >>= 
+    arg_of_treeType "Tree: " >>= fun t -> return (TreeType t)
+    (* (match t with
+     | Node(_,lt,_) -> return (TreeType lt)
+     | _ -> error "Empty tree") *)
+  | GetRST(e) -> 
+    type_of_expr e >>= 
+    arg_of_treeType "Tree: " >>= fun t -> return (TreeType t)
+    (* (match t with
+     | Node(_,_,rt) -> return (TreeType rt)
+     | _ -> error "Empty tree") *)
   | Debug(_e) ->
     string_of_tenv >>= fun str ->
     print_endline str;
