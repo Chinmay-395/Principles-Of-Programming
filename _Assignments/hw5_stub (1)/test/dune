@@ -1,8 +1,0 @@
-(test
- (name test)
- (libraries oUnit checked))
-
-(env
- (dev
-  (flags
-   (:standard -warn-error -A))))

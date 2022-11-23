@@ -288,12 +288,6 @@ y = bool                            x = int
 
 <!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
 
-<!-- Doubts -->
-
-using TApp we cannot do higher order trick
-explain TRec 🛑
-
-for TPair and TRecord how to use concrete syntax to create Type rules
 complete 4.1 bcoz it might be in asked next time -> 4.1.2 & 4.1.3 ✅
 
 <!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
@@ -422,7 +416,7 @@ y = bool                            x = int
 ------------------------------------------------------TProc   ---------------------------------------------------------------------------------TApp
 {} |- proc(x:int) { if zero?(x-2) then 0 else 1 } : int->int                                                     {} two? 3 : int
 --------------------------------------------------------------------------TLet
-{} |- let two? = proc(x:int) { if zero?(x-2) then 0 else 1 } in (two? 3) : int
+{} |- let two? = proc(x:int) { if zero?(x-2) then 0 else 1 } in (two? 3) : int->bool
 ```
 
 ### exercise 4.1.2
@@ -471,6 +465,23 @@ proc(f:(s->t)){
     (f x)
   }
 }
+```
+
+### exercise 4.1.4
+
+question
+
+```
+letrec double ( x : int ) : int = if zero?(x)
+then 0
+else ( double (x -1)) + 2
+in double
+```
+
+answer
+
+```
+{} |-
 ```
 
 ### exercise 4.1.5
@@ -568,8 +579,75 @@ proc ( z : int \* int ) { unpair (x , y )= z in x }
 
 let f = proc (x:int) { proc (y:bool) { if y then x else x-1 } } in (f 5)
 
+------------------------------------------------------------------------ TLet
+{} |proc (x:int) { proc (y:bool) { if y then x else x-1 } }: int -> bool <!--its partial application thats why only int->bool -->
+
 <!--Ask TA 🛑-->
 
 let z = proc(x:int){proc(y:int) {x-y}} in ((z 5) 10)
 
 <!--Ask TA 🛑-->
+
+<!-- Doubts -->
+
+explain TRec & TProj with example 🛑
+👉️in the Trec rule should I check types once or should I check at each recurssion call.
+
+👉️using TApp we cannot do higher order trick
+
+for TPair and TRecord how to use concrete syntax to create Type rules ✅
+
+###### (TPair)
+
+```
+If [G |- x : t1] and [G |- y : t2] then [G |- pair(x,y) : (t1 * t2)]
+```
+
+###### (Unpair)
+
+```
+ If [G |- z : t1 * t2] and [G, x : t1, y : t2 |- e : t] then [G |- unpair (x,y) = z in e : t]
+```
+
+**(TEmptyTree)**
+
+```
+[G |- emptytree : int tree]
+```
+
+**(TNode)**
+
+```
+[G |- node(t1, e, t2) : int tree]
+when [G |- t1 : int tree]
+and [G |- t2 : int tree]
+and [G |- e : int]
+```
+
+**(TCaseT)**
+
+```
+[G |- case t of emptytree => p1 | node(t1,e,t2) => p2 : A]
+when [G |- t : int tree]
+and [G |- p1 : A]
+and [G, t1 : int tree, e : int, t2 : int tree |- p2 : A]
+```
+
+```
+letrec append ( xs : list ( int )): list ( int ) -> list ( int ) =
+proc ( ys : list ( int )) {
+if null?( xs )
+then ys
+else cons ( hd ( xs ) ,(( append tl ( xs )) ys ))
+}
+in
+letrec inorder ( x : tree ( int )): list ( int ) =
+if nullT?( x )
+then emptylist int
+else (( append ( inorder getLST ( x ))) cons ( getData ( x ) ,
+( inorder getRST ( x ))))
+in
+( inorder node (2 ,
+node (1 , emptytree int , emptytree int ) ,
+node (3 , emptytree int , emptytree int )))
+```

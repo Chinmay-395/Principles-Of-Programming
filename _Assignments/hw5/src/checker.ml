@@ -48,16 +48,6 @@ let rec type_of_expr : expr -> texpr tea_result = function
      else error
          "LetRec: Type of recursive function does not match
 declaration")
-(* 
-chk " let x = newref(0) in deref(x)";; 
-chk "let x = newref(0) in x" ;;   
-chk "let x = newref(0) in setref(x,4)" ;;
-chk "newref(newref(zero?(0)))" ;;
-: texpr Checked . ReM . result = Ok ( RefType ( RefType BoolType ))
-chk "let x = 0 in setref(x ,4)";;
-
-let f = proc(z:<int*bool>){unpair(x,y) = z in pair(y,x)} in (f pair(1,zero?(0)))
-*)
   (* references *)
   | BeginEnd(es) ->
     List.fold_left (fun r e -> r >>= fun _ -> type_of_expr e) (return UnitType) es 
@@ -87,15 +77,15 @@ let f = proc(z:<int*bool>){unpair(x,y) = z in pair(y,x)} in (f pair(1,zero?(0)))
   | EmptyList(t) -> return (ListType t)
   | Cons(h, t) ->
     type_of_expr h >>= fun v1 ->
-    type_of_expr t >>= arg_of_listType "List: " >>= fun v2 ->
-      if(v1=v2) 
-        then return (TreeType v2) 
-      else error "Wrong type"
-  | Null(e) -> (**Should be of the type listVal *)
+    type_of_expr t >>= fun v2 ->
+      if (ListType(v1) = v2)
+        then return (v2) 
+      else error "Cons head and tail don't have same type"
+  | Null(e) -> 
     type_of_expr e >>=  
     arg_of_listType "List: " >>= 
-    fun t1 -> return (BoolType)
-  | Hd(e) -> (**Should be of the type listVal *)
+    fun _t1 -> return (BoolType)
+  | Hd(e) -> 
     type_of_expr e >>= 
     arg_of_listType "List: " >>= 
     fun t1 -> return (t1)
@@ -109,28 +99,20 @@ let f = proc(z:<int*bool>){unpair(x,y) = z in pair(y,x)} in (f pair(1,zero?(0)))
     type_of_expr de >>= fun data ->
       type_of_expr le >>= arg_of_treeType "Tree: " >>= fun lt ->
         type_of_expr re >>= arg_of_treeType "Tree: " >>= fun rt ->
+          if(data = lt && data = rt) then 
           return (TreeType data)
-    
+        else error "Not a tree"
   | NullT(t) -> 
-    type_of_expr t >>= arg_of_treeType "Tree: " >>= fun t1 -> return (BoolType) 
+    type_of_expr t >>= arg_of_treeType "Tree: " >>= fun _t1 -> return (BoolType) 
   | GetData(e) -> 
     type_of_expr e >>= 
-    arg_of_treeType "Tree: " >>= fun t -> return (IntType )
-    (* (match t with
-     | Node(i,_,_) -> return (IntType )
-     | _ -> error "Empty tree") *)
+    arg_of_treeType "Tree: " >>= fun t -> return (t)
   | GetLST(e) -> 
     type_of_expr e >>= 
     arg_of_treeType "Tree: " >>= fun t -> return (TreeType t)
-    (* (match t with
-     | Node(_,lt,_) -> return (TreeType lt)
-     | _ -> error "Empty tree") *)
   | GetRST(e) -> 
     type_of_expr e >>= 
     arg_of_treeType "Tree: " >>= fun t -> return (TreeType t)
-    (* (match t with
-     | Node(_,_,rt) -> return (TreeType rt)
-     | _ -> error "Empty tree") *)
   | Debug(_e) ->
     string_of_tenv >>= fun str ->
     print_endline str;
