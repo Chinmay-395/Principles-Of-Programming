@@ -128,16 +128,16 @@ and
     return (RecordVal (addIds fs evs))
   | Proj(e,id) ->
     eval_expr e >>=
-    fields_of_recordVal >>= fun fs ->
-      let rec projrec lt =
-    match lt with
-    | [] -> error "Proj: String not found."
-    | (a,b)::t -> 
-      if a = id 
-      then  int_of_refVal (snd b) >>= 
-            Store.deref g_store
-      else projrec t
-    in projrec fs
+      fields_of_recordVal >>= fun fs -> 
+    
+        ( 
+        match List.assoc_opt id fs with 
+        | Some (true, ev) -> int_of_refVal ev >>= fun i ->
+             Store.deref g_store i >>= fun v -> return v
+        |Some(false,ev) -> return ev
+        | _ -> error "Failed not found"
+      )
+
   | SetField(e1,id,e2) ->
     eval_expr e1 >>=
   fields_of_recordVal >>= fun x1  ->
