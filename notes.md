@@ -651,3 +651,79 @@ in
 node (1 , emptytree int , emptytree int ) ,
 node (3 , emptytree int , emptytree int )))
 ```
+
+# Dec 1
+
+##### Doubt
+
+- Call by reference
+
+- using implicit-ref
+
+  - Only the `App` function will be changed
+
+- Call by Need:
+
+  - we use Thunk
+
+- Call by name:
+
+  - call by need but with memoization, this will store
+  - once the thunk is evaluated the result will replaced by thunk instead of executing the same thunk over and over agian
+
+call by name:
+
+###### Call by Reference
+
+lazy evaluation explained with this code
+
+```ocaml
+
+interp "
+letrec f(x) = 1 + (f x)
+in let g=proc(y){
+  if input>3 then y else 7
+}
+in (g (f 5))
+";;
+```
+
+freeze code `(f 5)`
+
+_Thunk is clouser without a formal parameter_
+
+---
+
+---
+
+1. SOOL
+   This language will not have refs or ref related implementations
+
+checking for lazy evaluation for call-by-need and call-by-name should give two different answer
+
+```ocaml
+interp "
+let a=1
+in let f = proc(x) {begin set a=a+1; a end}
+in let g = proc(y){y+y}
+in (g (f 5))
+";;
+```
+
+---
+
+SOOL
+
+C++ <---> our implementation
+this <---> self
+initialize <---> constructor
+
+Ask professor to provide SOOL code taught in class
+
+Sool is missing tree implementations to type check and methods
+
+`initialize_class_env` need better explaination
+
+debug is also implemented in the SOOL
+
+next lecture type checking
