@@ -89,7 +89,7 @@ let is_subclass : string -> string -> class_env -> exp_val ea_result =
 let is_subclass2 : string -> string -> class_env -> bool = 
   fun c_name1 c_name2 c_env ->
       let all_sub_class = (func3 c_name1 c_env) in
-      if(List.length(all_sub_class) > 0 && find_string c_name2 (all_sub_class))  
+      if(List.length(all_sub_class) > 0 && find_string c_name2 (c_name1::all_sub_class))  
         then 
            true
       else  false
