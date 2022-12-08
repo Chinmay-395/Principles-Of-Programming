@@ -79,11 +79,10 @@ match list with
 | h::t -> if h=value then true else find_string value t
 let is_subclass : string -> string -> class_env -> exp_val ea_result = 
   fun c_name1 c_name2 c_env ->
-      if(List.length(func3 c_name1 c_env) > 0)  
+      let all_sub_class = (func3 c_name1 c_env) in
+      if(List.length(all_sub_class) > 0 && find_string c_name2 (c_name1::all_sub_class))  
         then 
-          if(find_string c_name2 (func3 c_name1 c_env))
-            then return @@ BoolVal true   (*Don't know what to return *)
-          else return @@ BoolVal false  (*Don't know what to return *)
+          return @@ BoolVal true   
       else return @@ BoolVal false  (*Don't know what to return *)
 
 let is_subclass2 : string -> string -> class_env -> bool = 
@@ -299,9 +298,17 @@ and
     return @@ BoolVal (l=[])
   (* Subtype testing and casting *)
   | IsInstanceOf(e,id) ->
-    failwith "implement"
+    eval_expr e >>=
+    obj_of_objectVal >>= fun (obj_class,_obj_env) ->
+    (is_subclass obj_class id !g_class_env) >>= bool_of_boolVal >>= fun b ->
+      return (BoolVal b)
   | Cast(e,id) ->
-    failwith "implement"
+    eval_expr e >>=
+    obj_of_objectVal >>= fun (obj_class,_obj_env) ->
+    (is_subclass obj_class id !g_class_env) >>= bool_of_boolVal >>= fun b ->
+      if b 
+        then return @@ ObjectVal (obj_class,_obj_env) 
+      else error "cast failed"
   (* Debug *)
   | Debug(_e) ->
     string_of_env >>= fun str_env ->

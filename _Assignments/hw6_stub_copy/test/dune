@@ -1,0 +1,8 @@
+(tests
+ (names graded_test student_test)
+ (libraries ounit2 tsool))
+
+(env
+ (dev
+  (flags
+   (:standard -warn-error -A))))
